@@ -18,18 +18,20 @@ class IdealGasApp : public ci::app::App {
   void draw() override;
   void update() override;
 
-  // TODO: Delete this comment. Feel free to play around with these variables
-  // provided that you can see the entire UI on your screen.
   const int kWindowSize = 875;
   const int kMargin = 100;
 
  private:
-    GasContainer container_ = GasContainer(kDefaultBounds);
+    GasContainer container_;
+
+    const ci::Color kDefaultColor = ci::Color("white");
+    const vec2 kTopLeft = vec2(100,100);
+    const vec2 kBottomRight = vec2(775,775);
+    const ci::Rectf kDefaultBounds = ci::Rectf(kTopLeft, kBottomRight);
     const size_t kDefaultParticleCount = 50;
-    const ci::Rectf kDefaultBounds = ci::Rectf(vec2(100, 100), vec2(600, 400));
-    const ci::vec2 kDefaultPosition = ci::vec2(0,0);
-    const ci::vec2 kDefaultVelocity = ci::vec2(0,0);
-    const float kDefaultRadius = 1.0;
+    const ci::vec2 kDefaultPosition = ci::vec2(10,10);
+    const ci::vec2 kDefaultVelocity = ci::vec2(1,0);
+    const float kDefaultRadius = 10.0;
 };
 
 }  // namespace idealgas
