@@ -4,6 +4,11 @@ namespace idealgas {
 
 IdealGasApp::IdealGasApp() {
   ci::app::setWindowSize(kWindowSize, kWindowSize);
+
+  for (size_t i = 0; i < kDefaultParticleCount; i++) {
+      Particle particle = Particle(kDefaultPosition, kDefaultVelocity, kDefaultRadius);
+      container_.AddParticle(particle);
+  }
 }
 
 void IdealGasApp::draw() {

@@ -24,7 +24,12 @@ class IdealGasApp : public ci::app::App {
   const int kMargin = 100;
 
  private:
-  GasContainer container_;
+    GasContainer container_ = GasContainer(kDefaultBounds);
+    const size_t kDefaultParticleCount = 50;
+    const ci::Rectf kDefaultBounds = ci::Rectf(vec2(100, 100), vec2(600, 400));
+    const ci::vec2 kDefaultPosition = ci::vec2(0,0);
+    const ci::vec2 kDefaultVelocity = ci::vec2(0,0);
+    const float kDefaultRadius = 1.0;
 };
 
 }  // namespace idealgas
