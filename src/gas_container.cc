@@ -20,8 +20,9 @@ void GasContainer::Display() const {
 }
 
 void GasContainer::AdvanceOneFrame() {
-
-
+    for (Particle& particle : particles_) {
+        particle.SetPosition(particle.GetPosition() + particle.GetVelocity());
+    }
 }
 
 void GasContainer::AddParticle(Particle const& particle) {
