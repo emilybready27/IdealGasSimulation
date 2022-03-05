@@ -1,5 +1,7 @@
 #include "gas_simulation_app.h"
 
+using glm::vec2;
+
 namespace idealgas {
 
 IdealGasApp::IdealGasApp() {

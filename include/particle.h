@@ -8,21 +8,22 @@ namespace idealgas {
 
 class Particle {
 public:
-    Particle(const ci::vec2& position, const ci::vec2& velocity, const float& radius);
+    Particle(const vec2& position, const vec2& velocity, const float& radius);
 
-    void SetPosition(const ci::vec2& position);
-    ci::vec2 GetPosition() const;
-    void SetVelocity(const ci::vec2& velocity);
-    ci::vec2 GetVelocity() const;
+    void SetPosition(const vec2& position);
+    vec2 GetPosition() const;
+    void SetVelocity(const vec2& velocity);
+    vec2 GetVelocity() const;
     void SetRadius(const float& radius);
     float GetRadius() const;
 
 private:
-    ci::vec2 position_;
-    ci::vec2 velocity_;
+    vec2 position_;
+    vec2 velocity_;
     float radius_;
     // later add mass, color
 
+    bool IsMovingTowards(const vec2 &other_position, const vec2 &other_velocity);
 };
 
 } // namespace idealgas

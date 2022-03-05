@@ -2,8 +2,6 @@
 
 namespace idealgas {
 
-using glm::vec2;
-
 GasContainer::GasContainer() {
     //bounds_ = kDefaultBounds;
 }
@@ -22,6 +20,9 @@ void GasContainer::Display() const {
 void GasContainer::AdvanceOneFrame() {
     for (Particle& particle : particles_) {
         particle.SetPosition(particle.GetPosition() + particle.GetVelocity());
+
+        // if particle is going to hit another particle, or if
+        // particle is going to hit a wall, execute collision
     }
 }
 

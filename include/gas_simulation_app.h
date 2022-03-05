@@ -6,6 +6,8 @@
 #include "gas_container.h"
 #include "particle.h"
 
+using glm::vec2;
+
 namespace idealgas {
 
 /**
@@ -29,8 +31,8 @@ class IdealGasApp : public ci::app::App {
     const vec2 kBottomRight = vec2(775,775);
     const ci::Rectf kDefaultBounds = ci::Rectf(kTopLeft, kBottomRight);
     const size_t kDefaultParticleCount = 50;
-    const ci::vec2 kDefaultPosition = ci::vec2(10,10);
-    const ci::vec2 kDefaultVelocity = ci::vec2(1,0);
+    const vec2 kDefaultPosition = vec2(10,10);
+    const vec2 kDefaultVelocity = vec2(1,0);
     const float kDefaultRadius = 10.0;
 };
 
