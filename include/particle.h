@@ -18,6 +18,7 @@ public:
     float GetRadius() const;
 
     void CheckWallCollision(const cinder::Rectf &bounds);
+    void CheckParticleCollision(Particle &other_particle);
 
 private:
     vec2 position_;
@@ -26,6 +27,7 @@ private:
     // later add mass, color
 
     bool IsMovingTowards(const vec2 &other_position, const vec2 &other_velocity);
+
 };
 
 } // namespace idealgas

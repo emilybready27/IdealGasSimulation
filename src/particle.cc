@@ -39,16 +39,39 @@ void Particle::CheckWallCollision(ci::Rectf const& bounds) {
     if (position_.x - radius_ <= bounds.x1
         && IsMovingTowards(vec2(bounds.x1, position_.y), vec2(0,0))) {
         velocity_.x *= -1;
+        position_.x += velocity_.x;
     } else if (position_.x + radius_ >= bounds.x2
             && IsMovingTowards(vec2(bounds.x2, position_.y), vec2(0,0))) {
         velocity_.x *= -1;
-    } else if (position_.y  - radius_ <= bounds.y1
+        position_.x += velocity_.x;
+    }
+
+    if (position_.y - radius_ <= bounds.y1
                && IsMovingTowards(vec2(position_.x, bounds.y1), vec2(0,0))) {
         velocity_.y *= -1;
-
+        position_.y += velocity_.y;
     } else if (position_.y + radius_ >= bounds.y2
                && IsMovingTowards(vec2(position_.x, bounds.y2), vec2(0,0))) {
         velocity_.y *= -1;
+        position_.y += velocity_.y;
+    }
+}
+
+void Particle::CheckParticleCollision(Particle& other) {
+    if (glm::distance(position_, other.position_) <= radius_ + other.radius_
+        && IsMovingTowards(other.position_, other.velocity_)) {
+
+        vec2 velocity_new = velocity_
+                - glm::dot(velocity_ - other.velocity_, position_ - other.position_)
+                / glm::length2(position_ - other.position_)
+                * (position_ - other.position_);
+        vec2 other_velocity_new = other.velocity_
+                - glm::dot(other.velocity_ - velocity_, other.position_ - position_)
+                / glm::length2(other.position_ - position_)
+                * (other.position_ - position_);
+
+        velocity_ = velocity_new;
+        other.velocity_ = other_velocity_new;
     }
 }
 

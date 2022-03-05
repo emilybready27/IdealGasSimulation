@@ -11,7 +11,8 @@ IdealGasApp::IdealGasApp() {
   for (size_t i = 0; i < kDefaultParticleCount; i++) {
       Particle particle = Particle(
               kBottomRight,
-              vec2(-(std::rand() % 10), -(std::rand() % 10)),
+              vec2(-(std::rand() % 10) - 1, -(std::rand() % 10) - 1),
+              //vec2(-1, -1),
               kDefaultRadius);
       container_.AddParticle(particle);
   }
