@@ -4,6 +4,7 @@
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 #include "gas_container.h"
+#include "particle.h"
 
 namespace idealgas {
 
