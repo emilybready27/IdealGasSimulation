@@ -34,6 +34,24 @@ float Particle::GetRadius() const {
     return radius_;
 }
 
+void Particle::CheckWallCollision(ci::Rectf const& bounds) {
+
+    if (position_.x - radius_ <= bounds.x1
+        && IsMovingTowards(vec2(bounds.x1, position_.y), vec2(0,0))) {
+        velocity_.x *= -1;
+    } else if (position_.x + radius_ >= bounds.x2
+            && IsMovingTowards(vec2(bounds.x2, position_.y), vec2(0,0))) {
+        velocity_.x *= -1;
+    } else if (position_.y  - radius_ <= bounds.y1
+               && IsMovingTowards(vec2(position_.x, bounds.y1), vec2(0,0))) {
+        velocity_.y *= -1;
+
+    } else if (position_.y + radius_ >= bounds.y2
+               && IsMovingTowards(vec2(position_.x, bounds.y2), vec2(0,0))) {
+        velocity_.y *= -1;
+    }
+}
+
 bool Particle::IsMovingTowards(vec2 const& other_position, vec2 const& other_velocity) {
     return glm::dot(velocity_ - other_velocity, position_ - other_position) < 0;
 }

@@ -17,6 +17,8 @@ public:
     void SetRadius(const float& radius);
     float GetRadius() const;
 
+    void CheckWallCollision(const cinder::Rectf &bounds);
+
 private:
     vec2 position_;
     vec2 velocity_;

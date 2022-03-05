@@ -21,6 +21,7 @@ void GasContainer::AdvanceOneFrame() {
     for (Particle& particle : particles_) {
         particle.SetPosition(particle.GetPosition() + particle.GetVelocity());
 
+        particle.CheckWallCollision(bounds_);
         // if particle is going to hit another particle, or if
         // particle is going to hit a wall, execute collision
     }
