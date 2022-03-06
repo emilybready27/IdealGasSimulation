@@ -40,7 +40,7 @@ FetchContent_Declare(
 FetchContent_GetProperties(catch2)
 if(NOT catch2_POPULATED)
     FetchContent_Populate(catch2)
-    add_library(catch2 INTERFACE src/particle.cc include/particle.h)
+    add_library(catch2 INTERFACE src/particle.cc include/particle.h tests/test_gas_container.cc tests/test_particle.cc)
     target_include_directories(catch2 INTERFACE ${catch2_SOURCE_DIR}/single_include)
 endif()
 
@@ -53,7 +53,9 @@ list(APPEND SOURCE_FILES    src/gas_container.cc
                             src/gas_simulation_app.cc
                             src/particle.cc)
 
-list(APPEND TEST_FILES tests/rename_this_test_file.cc)
+list(APPEND TEST_FILES tests/test_gas_simulation_app.cc
+                       tests/test_gas_container.cc
+                       tests/test_particle.cc)
 
 ci_make_app(
         APP_NAME        gas-simulation
