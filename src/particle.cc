@@ -14,16 +14,48 @@ void Particle::SetPosition(const vec2& position) {
     position_ = position;
 }
 
+void Particle::SetPositionX(const float& x) {
+    position_.x = x;
+}
+
+void Particle::SetPositionY(const float& y) {
+    position_.y = y;
+}
+
 ci::vec2 Particle::GetPosition() const {
     return position_;
+}
+
+float Particle::GetPositionX() const {
+    return position_.x;
+}
+
+float Particle::GetPositionY() const {
+    return position_.y;
 }
 
 void Particle::SetVelocity(const ci::vec2& velocity) {
     velocity_ = velocity;
 }
 
+void Particle::SetVelocityX(const float& x) {
+    velocity_.x = x;
+}
+
+void Particle::SetVelocityY(const float& y) {
+    velocity_.y = y;
+}
+
 ci::vec2 Particle::GetVelocity() const {
     return velocity_;
+}
+
+float Particle::GetVelocityX() const {
+    return velocity_.x;
+}
+
+float Particle::GetVelocityY() const {
+    return velocity_.y;
 }
 
 void Particle::SetRadius(const float& radius) {
@@ -35,24 +67,24 @@ float Particle::GetRadius() const {
 }
 
 void Particle::HandleWallCollision(ci::Rectf const& bounds) {
-    // if particle isn't between east and west bounds, move it to the nearest bound
-    if (position_.x - radius_ <= bounds.x1 || position_.x + radius_ >= bounds.x2) {
-        position_.x = glm::clamp(position_.x, bounds.x1 + radius_, bounds.x2 - radius_);
+    // if particle isn't between west and east bounds, move it to the nearest bound
+    if (IsOutsideBounds(position_.x, bounds.x1, bounds.x2)) {
+        position_.x = GetNearestBound(position_.x, bounds.x1, bounds.x2);
 
-        // if particle will collide with east or west wall, negate velocity in x direction
-        if (IsMovingTowards(vec2(bounds.x1, position_.y), vec2(0,0))
-            || IsMovingTowards(vec2(bounds.x2, position_.y), vec2(0,0))) {
+        // if particle will collide with west or east wall, negate velocity in x direction
+        if (IsMovingTowards(vec2(bounds.x1, position_.y))
+            || IsMovingTowards(vec2(bounds.x2, position_.y))) {
             velocity_.x *= -1;
         }
     }
 
     // if particle isn't between north and south bounds, move it to the nearest bound
-    if (position_.y - radius_ <= bounds.y1 || position_.y + radius_ >= bounds.y2) {
-        position_.y = glm::clamp(position_.y, bounds.y1 + radius_, bounds.y2 - radius_);
+    if (IsOutsideBounds(position_.y, bounds.y1, bounds.y2)) {
+        position_.y = GetNearestBound(position_.y, bounds.y1, bounds.y2);
 
         // if particle will collide with north or south wall, negate velocity in y direction
-        if (IsMovingTowards(vec2(position_.x, bounds.y1), vec2(0,0))
-            || IsMovingTowards(vec2(position_.x, bounds.y2), vec2(0,0))) {
+        if (IsMovingTowards(vec2(position_.x, bounds.y1))
+            || IsMovingTowards(vec2(position_.x, bounds.y2))) {
             velocity_.y *= -1;
         }
     }
@@ -77,8 +109,20 @@ void Particle::HandleParticleCollision(Particle& other) {
     }
 }
 
-bool Particle::IsMovingTowards(vec2 const& other_position, vec2 const& other_velocity) {
+float Particle::GetNearestBound(const float value, const float min, const float max) const {
+    return glm::clamp(value, min + radius_, max - radius_);
+}
+
+bool Particle::IsOutsideBounds(const float value, const float min, const float max) const {
+    return value - radius_ <= min || value + radius_ >= max;
+}
+
+bool Particle::IsMovingTowards(vec2 const& other_position, vec2 const& other_velocity) const {
     return glm::dot(velocity_ - other_velocity, position_ - other_position) < 0;
+}
+
+bool Particle::IsMovingTowards(vec2 const& other_position) const {
+    return IsMovingTowards(other_position, vec2(0,0));
 }
 
 bool Particle::Equals(const Particle& other) const {

@@ -27,12 +27,10 @@ class IdealGasApp : public ci::app::App {
     GasContainer container_;
 
     const ci::Color kDefaultColor = ci::Color("white");
-    const vec2 kTopLeft = vec2(100,100);
-    const vec2 kBottomRight = vec2(775,775);
+    const vec2 kTopLeft = vec2(kMargin, kMargin);
+    const vec2 kBottomRight = vec2(kWindowSize - kMargin, kWindowSize - kMargin);
     const ci::Rectf kDefaultBounds = ci::Rectf(kTopLeft, kBottomRight);
     const size_t kDefaultParticleCount = 50;
-    const vec2 kDefaultPosition = vec2(10,10);
-    const vec2 kDefaultVelocity = vec2(1,0);
     const float kDefaultRadius = 10.0;
 };
 
