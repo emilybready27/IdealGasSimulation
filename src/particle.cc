@@ -66,15 +66,14 @@ void Particle::HandleParticleCollision(Particle& other) {
     if (glm::distance(position_, other.position_) <= radius_ + other.radius_
         && IsMovingTowards(other.position_, other.velocity_)) {
 
-        vec2 velocity_new = glm::dot(velocity_ - other.velocity_, position_ - other.position_)
-                * (position_ - other.position_)
-                / (float) pow(glm::length(position_ - other.position_),2.0);
-        vec2 other_velocity_new = glm::dot(other.velocity_ - velocity_, other.position_ - position_)
-                * (other.position_ - position_)
-                / (float) pow(glm::length(other.position_ - position_), 2.0);
+        std::vector<vec2> v = {velocity_, other.velocity_};
+        std::vector<vec2> x = {position_, other.position_};
 
-        velocity_ -= velocity_new;
-        other.velocity_ -= other_velocity_new;
+        vec2 v_0 = glm::dot(v[0] - v[1], x[0] - x[1]) * (x[0] - x[1]) / pow(glm::length(x[0] - x[1]), 2);
+        vec2 v_1 = glm::dot(v[1] - v[0], x[1] - x[0]) * (x[1] - x[0]) / pow(glm::length(x[1] - x[0]), 2);
+
+        velocity_ -= v_0;
+        other.velocity_ -= v_1;
     }
 }
 
