@@ -35,48 +35,60 @@ float Particle::GetRadius() const {
 }
 
 void Particle::CheckWallCollision(ci::Rectf const& bounds) {
+    // if particle isn't between east and west bounds, move it to the nearest bound
+    if (position_.x - radius_ <= bounds.x1 || position_.x + radius_ >= bounds.x2) {
+        position_.x = glm::clamp(position_.x, bounds.x1 + radius_, bounds.x2 - radius_);
 
-    if (position_.x - radius_ <= bounds.x1
-        && IsMovingTowards(vec2(bounds.x1, position_.y), vec2(0,0))) {
-        velocity_.x *= -1;
-        position_.x += velocity_.x;
-    } else if (position_.x + radius_ >= bounds.x2
-            && IsMovingTowards(vec2(bounds.x2, position_.y), vec2(0,0))) {
-        velocity_.x *= -1;
-        position_.x += velocity_.x;
+        // if particle will collide with east or west wall, negate velocity in x direction
+        if (IsMovingTowards(vec2(bounds.x1, position_.y), vec2(0,0))
+            || IsMovingTowards(vec2(bounds.x2, position_.y), vec2(0,0))) {
+            velocity_.x *= -1;
+        }
     }
 
-    if (position_.y - radius_ <= bounds.y1
-               && IsMovingTowards(vec2(position_.x, bounds.y1), vec2(0,0))) {
-        velocity_.y *= -1;
-        position_.y += velocity_.y;
-    } else if (position_.y + radius_ >= bounds.y2
-               && IsMovingTowards(vec2(position_.x, bounds.y2), vec2(0,0))) {
-        velocity_.y *= -1;
-        position_.y += velocity_.y;
+    // if particle isn't between north and south bounds, move it to the nearest bound
+    if (position_.y - radius_ <= bounds.y1 || position_.y + radius_ >= bounds.y2) {
+        position_.y = glm::clamp(position_.y, bounds.y1 + radius_, bounds.y2 - radius_);
+
+        // if particle will collide with north or south wall, negate velocity in y direction
+        if (IsMovingTowards(vec2(position_.x, bounds.y1), vec2(0,0))
+            || IsMovingTowards(vec2(position_.x, bounds.y2), vec2(0,0))) {
+            velocity_.y *= -1;
+        }
     }
 }
 
 void Particle::CheckParticleCollision(Particle& other) {
+    if ((*this).Equals(other)) {
+        return;
+    }
+
     if (glm::distance(position_, other.position_) <= radius_ + other.radius_
         && IsMovingTowards(other.position_, other.velocity_)) {
 
-        vec2 velocity_new = velocity_
-                - glm::dot(velocity_ - other.velocity_, position_ - other.position_)
-                / glm::length2(position_ - other.position_)
-                * (position_ - other.position_);
-        vec2 other_velocity_new = other.velocity_
-                - glm::dot(other.velocity_ - velocity_, other.position_ - position_)
-                / glm::length2(other.position_ - position_)
-                * (other.position_ - position_);
+        vec2 velocity_new = glm::dot(velocity_ - other.velocity_, position_ - other.position_)
+                * (position_ - other.position_)
+                / (float) pow(glm::length(position_ - other.position_),2.0);
+        vec2 other_velocity_new = glm::dot(other.velocity_ - velocity_, other.position_ - position_)
+                * (other.position_ - position_)
+                / (float) pow(glm::length(other.position_ - position_), 2.0);
 
-        velocity_ = velocity_new;
-        other.velocity_ = other_velocity_new;
+        velocity_ -= velocity_new;
+        other.velocity_ -= other_velocity_new;
     }
 }
 
 bool Particle::IsMovingTowards(vec2 const& other_position, vec2 const& other_velocity) {
     return glm::dot(velocity_ - other_velocity, position_ - other_position) < 0;
+}
+
+bool Particle::Equals(const Particle& other) const {
+    if (this == &other) {
+        return true;
+    }
+    return position_ == other.position_
+        && velocity_ == other.velocity_
+        && fabs(radius_ - other.radius_) <= std::numeric_limits<float>::epsilon();
 }
 
 } // namespace idealgas

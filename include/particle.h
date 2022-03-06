@@ -20,6 +20,8 @@ public:
     void CheckWallCollision(const cinder::Rectf &bounds);
     void CheckParticleCollision(Particle &other_particle);
 
+    bool Equals(const Particle& other) const;
+
 private:
     vec2 position_;
     vec2 velocity_;
