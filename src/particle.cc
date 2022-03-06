@@ -34,7 +34,7 @@ float Particle::GetRadius() const {
     return radius_;
 }
 
-void Particle::CheckWallCollision(ci::Rectf const& bounds) {
+void Particle::HandleWallCollision(ci::Rectf const& bounds) {
     // if particle isn't between east and west bounds, move it to the nearest bound
     if (position_.x - radius_ <= bounds.x1 || position_.x + radius_ >= bounds.x2) {
         position_.x = glm::clamp(position_.x, bounds.x1 + radius_, bounds.x2 - radius_);
@@ -58,7 +58,7 @@ void Particle::CheckWallCollision(ci::Rectf const& bounds) {
     }
 }
 
-void Particle::CheckParticleCollision(Particle& other) {
+void Particle::HandleParticleCollision(Particle& other) {
     if ((*this).Equals(other)) {
         return;
     }

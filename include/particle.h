@@ -17,8 +17,8 @@ public:
     void SetRadius(const float& radius);
     float GetRadius() const;
 
-    void CheckWallCollision(const cinder::Rectf &bounds);
-    void CheckParticleCollision(Particle &other_particle);
+    void HandleWallCollision(const cinder::Rectf &bounds);
+    void HandleParticleCollision(Particle &other);
 
     bool Equals(const Particle& other) const;
 
