@@ -4,6 +4,10 @@
 
 using json = nlohmann::json;
 
+/**
+ * An external class that handles the Json parsing into a Json object
+ * and ensures it is valid.
+ */
 class JsonParser {
  public:
   JsonParser() = default;
@@ -12,7 +16,7 @@ class JsonParser {
 
  private:
   void CheckValidJson(const std::vector<std::string>& fields) const;
-  std::vector<std::string> GetFields() const;
   bool Contains(const std::vector<std::string> &container, const std::vector<std::string> &items) const;
+  std::vector<std::string> GetFields() const;
 
 };

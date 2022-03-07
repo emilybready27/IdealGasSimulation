@@ -3,19 +3,21 @@
 
 JsonParser::JsonParser(const std::string& path_to_file, const std::vector<std::string>& fields) {
     std::ifstream file(path_to_file);
+
     try {
         json_object = json::parse(file);
         CheckValidJson(fields);
     } catch (const std::exception& e) {
         (void)e;
-        throw std::exception("Invalid Json");
+        throw std::invalid_argument("Invalid Json");
     }
 }
 
 void JsonParser::CheckValidJson(const std::vector<std::string>& fields) const {
     std::vector<std::string> json_fields = GetFields();
+
     if (!Contains(json_fields, fields)) {
-        throw std::exception("Invalid Json");
+        throw std::invalid_argument("Invalid Json");
     }
 }
 
