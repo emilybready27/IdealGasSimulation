@@ -22,16 +22,14 @@ class IdealGasApp : public ci::app::App {
 
   const int kWindowSize = 875;
   const int kMargin = 100;
+  const std::string kPathToJsonFile =
+          R"(C:\Users\Mary\Desktop\Cinder\my-projects\ideal-gas-ebready2\resources\configuration.json)";
 
  private:
     GasContainer container_;
-
-    const ci::Color kDefaultColor = ci::Color("white");
-    const vec2 kTopLeft = vec2(kMargin, kMargin);
-    const vec2 kBottomRight = vec2(kWindowSize - kMargin, kWindowSize - kMargin);
-    const ci::Rectf kDefaultBounds = ci::Rectf(kTopLeft, kBottomRight);
-    const size_t kDefaultParticleCount = 50;
-    const float kDefaultRadius = 10.0;
+    vec2 top_left_;
+    vec2 bottom_right_;
+    cinder::RectT<float> bounds_;
 };
 
 }  // namespace idealgas

@@ -5,24 +5,21 @@ using glm::vec2;
 namespace idealgas {
 
 IdealGasApp::IdealGasApp() {
-  ci::app::setWindowSize(kWindowSize, kWindowSize);
-  container_ = GasContainer(kDefaultBounds);
+    ci::app::setWindowSize(kWindowSize, kWindowSize);
+    top_left_ = vec2(kMargin, kMargin);
+    bottom_right_ = vec2(kWindowSize - kMargin, kWindowSize - kMargin);
+    bounds_ = ci::Rectf(top_left_, bottom_right_);
 
-  for (size_t i = 0; i < kDefaultParticleCount; i++) {
-      Particle particle = Particle(
-              kBottomRight,
-              vec2((std::rand() % 3) + 1, (std::rand() % 3) + 1),
-              kDefaultRadius);
-      container_.AddParticle(particle);
-  }
+    std::ifstream file(kPathToJsonFile);
+    json json_object = json::parse(file);
+    file.close();
+
+    container_ = GasContainer(json_object, bounds_);
 }
 
 void IdealGasApp::draw() {
   ci::Color background_color("black");
   ci::gl::clear(background_color);
-  ci::gl::color(kDefaultColor);
-  ci::gl::drawStrokedRect(kDefaultBounds);
-
   container_.Display();
 }
 
