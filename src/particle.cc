@@ -4,10 +4,13 @@ using glm::vec2;
 
 namespace idealgas {
 
-Particle::Particle(const glm::vec2& position, const glm::vec2& velocity, const float& radius) {
+Particle::Particle(const glm::vec2& position, const glm::vec2& velocity, const float radius,
+                   const float mass, const ci::Color& color) {
     position_ = position;
     velocity_ = velocity;
     radius_ = radius;
+    mass_ = mass;
+    color_ = color;
 }
 
 void Particle::SetPosition(const vec2& position) {
@@ -38,11 +41,11 @@ void Particle::SetVelocity(const ci::vec2& velocity) {
     velocity_ = velocity;
 }
 
-void Particle::SetVelocityX(const float& x) {
+void Particle::SetVelocityX(const float x) {
     velocity_.x = x;
 }
 
-void Particle::SetVelocityY(const float& y) {
+void Particle::SetVelocityY(const float y) {
     velocity_.y = y;
 }
 
@@ -58,12 +61,28 @@ float Particle::GetVelocityY() const {
     return velocity_.y;
 }
 
-void Particle::SetRadius(const float& radius) {
+void Particle::SetRadius(const float radius) {
     radius_ = radius;
 }
 
 float Particle::GetRadius() const {
     return radius_;
+}
+
+void Particle::SetMass(const float mass) {
+    mass_ = mass;
+}
+
+float Particle::GetMass() const {
+    return mass_;
+}
+
+void Particle::SetColor(const ci::Color& color) {
+    color_ = color;
+}
+
+ci::Color Particle::GetColor() const {
+    return color_;
 }
 
 void Particle::HandleWallCollision(ci::Rectf const& bounds) {
@@ -115,6 +134,10 @@ float Particle::GetNearestBound(const float value, const float min, const float 
 
 bool Particle::IsOutsideBounds(const float value, const float min, const float max) const {
     return value - radius_ <= min || value + radius_ >= max;
+}
+
+bool Particle::IsMovingTowards(const Particle& other_particle) const {
+    return IsMovingTowards(other_particle.position_, other_particle.velocity_);
 }
 
 bool Particle::IsMovingTowards(vec2 const& other_position, vec2 const& other_velocity) const {
