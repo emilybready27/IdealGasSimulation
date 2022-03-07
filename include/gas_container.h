@@ -2,9 +2,8 @@
 
 #include "cinder/gl/gl.h"
 #include "particle.h"
-#include <nlohmann/json.hpp>
+#include "json_parser.h"
 
-using json = nlohmann::json;
 using glm::vec2;
 
 namespace idealgas {
@@ -19,10 +18,9 @@ public:
      *
      */
     GasContainer() = default;
-    GasContainer(json j, ci::Rectf bounds);
-    //GasContainer(ci::Rectf bounds);
+    GasContainer(const JsonParser& parser);
 
-/**
+    /**
      * Displays the container walls and the current positions of the particles.
      */
     void Display() const;
@@ -33,17 +31,30 @@ public:
      */
     void AdvanceOneFrame();
 
+    std::vector<Particle> GetParticles() const;
+    ci::Rectf GetBounds() const;
+    vec2 GetInitialPosition() const;
+    int GetInitialVelocityFactor() const;
+    int GetParticleCount() const;
+    float GetParticleRadius() const;
+    float GetParticleMass() const;
+    ci::Color GetParticleColor() const;
+    ci::Color GetRectangleColor() const;
+
+
 private:
     std::vector<Particle> particles_;
     ci::Rectf bounds_;
-    size_t particle_count_;
+    vec2 initial_position_;
+    int initial_velocity_factor_;
+    int particle_count_;
     float particle_radius_;
     float particle_mass_;
     ci::Color particle_color_;
     ci::Color rectangle_color_;
-    vec2 initial_position_;
-    int initial_velocity_factor_;
 
+    void ExtractData(const JsonParser& parser);
+    void AddParticles();
 };
 
 }  // namespace idealgas
