@@ -1,0 +1,8 @@
+{
+  "particle_count": 50,
+  "particle_radius": 10.0,
+  "particle_mass": 4.0,
+  "particle_color": "green",
+  "rectangle_color": "purple",
+  "initial_velocity_factor": 5
+}
