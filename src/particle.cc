@@ -4,7 +4,13 @@ using glm::vec2;
 
 namespace idealgas {
 
-Particle::Particle(const glm::vec2& position, const glm::vec2& velocity, const float radius,
+Particle::Particle(const vec2& position, const vec2& velocity, const float radius) {
+    position_ = position;
+    velocity_ = velocity;
+    radius_ = radius;
+}
+
+Particle::Particle(const vec2& position, const vec2& velocity, const float radius,
                    const float mass, const ci::Color& color) {
     position_ = position;
     velocity_ = velocity;
@@ -91,8 +97,8 @@ void Particle::HandleWallCollision(ci::Rectf const& bounds) {
         position_.x = GetNearestBound(position_.x, bounds.x1, bounds.x2);
 
         // if particle will collide with west or east wall, negate velocity in x direction
-        if (IsMovingTowards(vec2(bounds.x1, position_.y))
-            || IsMovingTowards(vec2(bounds.x2, position_.y))) {
+        if (IsMovingTowards(vec2(bounds.x1, position_.y),vec2(0,0))
+            || IsMovingTowards(vec2(bounds.x2, position_.y),vec2(0,0))) {
             velocity_.x *= -1;
         }
     }
@@ -102,8 +108,8 @@ void Particle::HandleWallCollision(ci::Rectf const& bounds) {
         position_.y = GetNearestBound(position_.y, bounds.y1, bounds.y2);
 
         // if particle will collide with north or south wall, negate velocity in y direction
-        if (IsMovingTowards(vec2(position_.x, bounds.y1))
-            || IsMovingTowards(vec2(position_.x, bounds.y2))) {
+        if (IsMovingTowards(vec2(position_.x, bounds.y1),vec2(0,0))
+            || IsMovingTowards(vec2(position_.x, bounds.y2),vec2(0,0))) {
             velocity_.y *= -1;
         }
     }
@@ -142,10 +148,6 @@ bool Particle::IsMovingTowards(const Particle& other_particle) const {
 
 bool Particle::IsMovingTowards(vec2 const& other_position, vec2 const& other_velocity) const {
     return glm::dot(velocity_ - other_velocity, position_ - other_position) < 0;
-}
-
-bool Particle::IsMovingTowards(vec2 const& other_position) const {
-    return IsMovingTowards(other_position, vec2(0,0));
 }
 
 bool Particle::Equals(const Particle& other) const {

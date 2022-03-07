@@ -6,10 +6,15 @@ using glm::vec2;
 
 namespace idealgas {
 
+/**
+ * The data members and behaviors of a gas particle.
+ */
 class Particle {
 public:
     Particle(const vec2& position, const vec2& velocity, const float radius,
              const float mass, const ci::Color& color);
+
+    Particle(const vec2& position, const vec2& velocity, const float radius);
 
     void SetPosition(const vec2& position);
     void SetPositionX(const float &x);
@@ -30,13 +35,11 @@ public:
     void SetColor(const ci::Color& color);
     ci::Color GetColor() const;
 
-
     void HandleWallCollision(const cinder::Rectf &bounds);
     void HandleParticleCollision(Particle &other);
-
-    bool Equals(const Particle& other) const;
     bool IsMovingTowards(const Particle &other_particle) const;
-
+    bool IsMovingTowards(const vec2 &other_position, const vec2 &other_velocity) const;
+    bool Equals(const Particle& other) const;
 
 private:
     vec2 position_;
@@ -45,8 +48,6 @@ private:
     float mass_;
     ci::Color color_;
 
-    bool IsMovingTowards(const vec2 &other_position, const vec2 &other_velocity) const;
-    bool IsMovingTowards(const vec2 &other_position) const;
     float GetNearestBound(const float value, const float min, const float max) const;
     bool IsOutsideBounds(const float value, const float min, const float max) const;
 
