@@ -102,7 +102,7 @@ TEST_CASE("Handle collision with other particle") {
     particle2.SetPosition(bounds.getCenter());
     particle2.SetVelocity(vec2(1, 1));
     particle1.SetPosition(particle2.GetPosition() - vec2(1,1));
-    particle1.HandleParticleCollision(particle2);
+    particle1.HandleParticleCollision(&particle2);
     REQUIRE(!particle1.IsMovingTowards(particle2));
   }
 }

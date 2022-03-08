@@ -69,7 +69,7 @@ void GasContainer::AdvanceOneFrame() {
 
     for (Particle& other_particle : particles_) {
       // resets velocity and position of both particles after collision (if any)
-      particle.HandleParticleCollision(other_particle);
+      particle.HandleParticleCollision(&other_particle);
     }
   }
 }

@@ -13,7 +13,7 @@ Particle::Particle(const vec2& position, const vec2& velocity, const float radiu
   color_ = color;
 }
 
-void Particle::HandleWallCollision(ci::Rectf const& bounds) {
+void Particle::HandleWallCollision(const ci::Rectf& bounds) {
   // if particle isn't between west and east bounds, move it to the nearest bound
   if (IsOutsideBounds(position_.x, bounds.x1, bounds.x2)) {
     position_.x = GetNearestBound(position_.x, bounds.x1, bounds.x2);
@@ -37,27 +37,27 @@ void Particle::HandleWallCollision(ci::Rectf const& bounds) {
   }
 }
 
-void Particle::HandleParticleCollision(Particle& other) {
-  if ((*this).Equals(other)) { // collision with itself
+void Particle::HandleParticleCollision(Particle* other) {
+  if ((*this).Equals(*other)) { // collision with itself
     return;
   }
 
   // collision if two particles are touching and moving towards each other
   // update both of their positions and velocities according to formula given
-  if (glm::distance(position_, other.position_) <= radius_ + other.radius_
-      && IsMovingTowards(other.position_, other.velocity_)) {
+  if (glm::distance(position_, other->position_) <= radius_ + other->radius_
+      && IsMovingTowards(other->position_, other->velocity_)) {
 
-    std::vector<vec2> v = {velocity_, other.velocity_};
-    std::vector<vec2> x = {position_, other.position_};
+    std::vector<vec2> v = {velocity_, other->velocity_};
+    std::vector<vec2> x = {position_, other->position_};
 
     vec2 v_0 = glm::dot(v[0] - v[1], x[0] - x[1]) * (x[0] - x[1]) / pow(glm::length(x[0] - x[1]), 2);
     vec2 v_1 = glm::dot(v[1] - v[0], x[1] - x[0]) * (x[1] - x[0]) / pow(glm::length(x[1] - x[0]), 2);
 
     velocity_ -= v_0;
-    other.velocity_ -= v_1;
+    other->velocity_ -= v_1;
 
     position_ += velocity_;
-    other.position_ += other.velocity_;
+    other->position_ += other->velocity_;
   }
 }
 
@@ -92,11 +92,11 @@ void Particle::SetPosition(const vec2& position) {
   position_ = position;
 }
 
-void Particle::SetPositionX(const float& x) {
+void Particle::SetPositionX(const float x) {
   position_.x = x;
 }
 
-void Particle::SetPositionY(const float& y) {
+void Particle::SetPositionY(const float y) {
   position_.y = y;
 }
 

@@ -27,14 +27,14 @@ class Particle {
    * position and velocity and updates both states accordingly.
    * @param bounds ci::Rectf
    */
-  void HandleWallCollision(const ci::Rectf &bounds);
+  void HandleWallCollision(const ci::Rectf& bounds);
 
   /**
    * Detects collision of Particle with another given Particle based on their
    * positions and velocities and updates both states of both particles accordingly.
    * @param other
    */
-  void HandleParticleCollision(Particle &other);
+  void HandleParticleCollision(Particle* other);
 
   /**
    * Determines if the Particle is moving towards the other given Particle.
@@ -62,8 +62,8 @@ class Particle {
    * Getters and setters for Particle position.
    */
   void SetPosition(const vec2& position);
-  void SetPositionX(const float &x);
-  void SetPositionY(const float &y);
+  void SetPositionX(const float x);
+  void SetPositionY(const float y);
   vec2 GetPosition() const;
   float GetPositionX() const;
   float GetPositionY() const;
