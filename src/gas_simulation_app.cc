@@ -9,6 +9,10 @@ IdealGasApp::IdealGasApp() {
   parser_ = JsonParser(kPathToJsonFile, kFields);
   container_ = GasContainer(parser_);
 
+  // set background color with char pointer
+  std::string color = parser_.json_object["background_color"];
+  background_color_ = ci::Color(&(color[0]));
+
   // set size of display window
   window_size_ = parser_.json_object["window_size"];
   margin_size_ = parser_.json_object["margin_size"];
@@ -16,7 +20,7 @@ IdealGasApp::IdealGasApp() {
 }
 
 void IdealGasApp::draw() {
-  ci::Color background_color("black");
+  ci::Color background_color(background_color_);
   ci::gl::clear(background_color);
   container_.Display();
 }

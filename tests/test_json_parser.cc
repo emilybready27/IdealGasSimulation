@@ -4,7 +4,8 @@
 TEST_CASE("Test JsonParser construction") {
   std::string path = R"(C:\Users\Mary\Desktop\Cinder\my-projects\ideal-gas-ebready2\resources\configuration.json)";
   std::vector<std::string> fields = {"window_size", "margin_size", "initial_velocity_factor", "particle_count",
-                                     "particle_radius", "particle_mass", "particle_color", "rectangle_color"};
+                                     "particle_radius", "particle_mass", "particle_color", "rectangle_color",
+                                     "background_color"};
 
   SECTION("Valid file") {
     REQUIRE_NOTHROW(JsonParser(path, fields));
