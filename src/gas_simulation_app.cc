@@ -5,12 +5,14 @@ using glm::vec2;
 namespace idealgas {
 
 IdealGasApp::IdealGasApp() {
-    parser_ = JsonParser(kPathToJsonFile, kFields);
-    container_ = GasContainer(parser_);
+  // collect and set configuration for app
+  parser_ = JsonParser(kPathToJsonFile, kFields);
+  container_ = GasContainer(parser_);
 
-    window_size_ = parser_.json_object["window_size"];
-    margin_size_ = parser_.json_object["margin_size"];
-    ci::app::setWindowSize(window_size_, window_size_);
+  // set size of display window
+  window_size_ = parser_.json_object["window_size"];
+  margin_size_ = parser_.json_object["margin_size"];
+  ci::app::setWindowSize(window_size_, window_size_);
 }
 
 void IdealGasApp::draw() {
