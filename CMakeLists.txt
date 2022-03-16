@@ -10,7 +10,7 @@ set(CMAKE_BUILD_TYPE Debug)
 # Let's ensure -std=c++xx instead of -std=g++xx
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Let's nicely support folders in IDE's
+# Let's nicely support folders in IDEs
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Warning flags
@@ -40,7 +40,7 @@ FetchContent_Declare(
 FetchContent_GetProperties(catch2)
 if(NOT catch2_POPULATED)
     FetchContent_Populate(catch2)
-    add_library(catch2 INTERFACE)
+    add_library(catch2 INTERFACE src/particle.cc include/particle.h tests/test_gas_container.cc tests/test_particle.cc src/json_parser.cc include/json_parser.h tests/test_json_parser.cc)
     target_include_directories(catch2 INTERFACE ${catch2_SOURCE_DIR}/single_include)
 endif()
 
@@ -50,9 +50,14 @@ get_filename_component(APP_PATH "${CMAKE_CURRENT_SOURCE_DIR}/" ABSOLUTE)
 include("${CINDER_PATH}/proj/cmake/modules/cinderMakeApp.cmake")
 
 list(APPEND SOURCE_FILES    src/gas_container.cc
-                            src/gas_simulation_app.cc)
+                            src/gas_simulation_app.cc
+                            src/particle.cc
+                            src/json_parser.cc)
 
-list(APPEND TEST_FILES tests/rename_this_test_file.cc)
+list(APPEND TEST_FILES tests/test_gas_simulation_app.cc
+                       tests/test_gas_container.cc
+                       tests/test_particle.cc
+                       tests/test_json_parser.cc)
 
 ci_make_app(
         APP_NAME        gas-simulation

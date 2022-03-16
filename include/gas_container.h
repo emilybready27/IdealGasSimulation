@@ -1,6 +1,8 @@
 #pragma once
 
 #include "cinder/gl/gl.h"
+#include "particle.h"
+#include "json_parser.h"
 
 using glm::vec2;
 
@@ -13,9 +15,16 @@ namespace idealgas {
 class GasContainer {
  public:
   /**
-   * TODO: Add more parameters to this constructor, and add documentation.
+   * Constructs a GasContainer by initializing state with configuration details
+   * given by JsonParser parameter.
+   * @param parser
    */
-  GasContainer();
+  GasContainer(const JsonParser& parser);
+
+  /**
+   * Default constructor.
+   */
+  GasContainer() = default;
 
   /**
    * Displays the container walls and the current positions of the particles.
@@ -28,12 +37,76 @@ class GasContainer {
    */
   void AdvanceOneFrame();
 
+  /**
+   * Getters for GasContainer state.
+   */
+  std::vector<Particle> GetParticles() const;
+  ci::Rectf GetBounds() const;
+  vec2 GetInitialPosition() const;
+  int GetInitialVelocityFactor() const;
+  int GetParticleCount() const;
+  float GetParticleRadius() const;
+  float GetParticleMass() const;
+  ci::Color GetParticleColor() const;
+  ci::Color GetRectangleColor() const;
+
  private:
   /**
-   * This variable is just for the purposes of demonstrating how to make a shape move
-   * across a screen. Please remove it once you start working on your code.
+   * List of the Particles stored by the container.
    */
-  int dummy_variable_ = 0;
+  std::vector<Particle> particles_;
+
+  /**
+   * Rectangle comprising the bounds for the container.
+   */
+  ci::Rectf bounds_;
+
+  /**
+   * Starting position for the particles at time 0.
+   */
+  vec2 initial_position_;
+
+  /**
+   * Factor used to randomize starting velocities.
+   */
+  int initial_velocity_factor_;
+
+  /**
+   * Default number of particles in the container.
+   */
+  int particle_count_;
+
+  /**
+   * Default radius of each particle,
+   */
+  float particle_radius_;
+
+  /**
+   * Default mass of each particle.
+   */
+  float particle_mass_;
+
+  /**
+   * Default color of each particle.
+   */
+  ci::Color particle_color_;
+
+  /**
+   * Default color of the rectangular bounds.
+   */
+  ci::Color rectangle_color_;
+
+  /**
+   * Stores the configurations of the GasContainer from the Json data.
+   * @param parser
+   */
+  void ExtractData(const JsonParser& parser);
+
+  /**
+   * Adds particles to the container after constructing them
+   */
+  void AddParticles();
+
 };
 
 }  // namespace idealgas
