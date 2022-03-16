@@ -57,6 +57,11 @@ class IdealGasApp : public ci::app::App {
   JsonParser parser_;
 
   /**
+   * List of three histograms of particle speeds.
+   */
+   //std::vector<Histogram> histograms_;
+
+  /**
    * The color of the background of the display screen.
    */
   ci::Color background_color_;

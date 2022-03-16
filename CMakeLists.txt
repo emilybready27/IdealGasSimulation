@@ -40,7 +40,7 @@ FetchContent_Declare(
 FetchContent_GetProperties(catch2)
 if(NOT catch2_POPULATED)
     FetchContent_Populate(catch2)
-    add_library(catch2 INTERFACE src/particle.cc include/particle.h tests/test_gas_container.cc tests/test_particle.cc src/json_parser.cc include/json_parser.h tests/test_json_parser.cc)
+    add_library(catch2 INTERFACE src/particle.cc include/particle.h tests/test_gas_container.cc tests/test_particle.cc src/json_parser.cc include/json_parser.h tests/test_json_parser.cc src/histogram.cc include/histogram.h tests/test_histogram.cc)
     target_include_directories(catch2 INTERFACE ${catch2_SOURCE_DIR}/single_include)
 endif()
 
@@ -52,12 +52,14 @@ include("${CINDER_PATH}/proj/cmake/modules/cinderMakeApp.cmake")
 list(APPEND SOURCE_FILES    src/gas_container.cc
                             src/gas_simulation_app.cc
                             src/particle.cc
-                            src/json_parser.cc)
+                            src/json_parser.cc
+                            src/histogram.cc)
 
 list(APPEND TEST_FILES tests/test_gas_simulation_app.cc
                        tests/test_gas_container.cc
                        tests/test_particle.cc
-                       tests/test_json_parser.cc)
+                       tests/test_json_parser.cc
+                       tests/test_histogram.cc)
 
 ci_make_app(
         APP_NAME        gas-simulation
