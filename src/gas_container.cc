@@ -20,13 +20,19 @@ void GasContainer::ExtractData(const JsonParser& parser) {
 
   initial_velocity_factor_ = parser.json_object["initial_velocity_factor"];
   particle_count_ = parser.json_object["particle_count"];
-  particle_radius_ = parser.json_object["particle_radius"];
-  particle_mass_ = parser.json_object["particle_mass"];
+
+  for (const float radius : parser.json_object["particle_radii"]) {
+    particle_radii_.push_back(radius);
+  }
+  for (const float mass : parser.json_object["particle_masses"]) {
+    particle_masses_.push_back(mass);
+  }
 
   // setting Color requires a pointer to a char
-  std::string color = parser.json_object["particle_color"];
-  particle_color_ = ci::Color(&(color[0]));
-  color = parser.json_object["rectangle_color"];
+  for (const std::string color : parser.json_object["particle_colors"]) {
+    particle_colors_.push_back(ci::Color(&(color[0])));
+  }
+  std::string color = parser.json_object["rectangle_color"];
   rectangle_color_ = ci::Color(&(color[0]));
 }
 
@@ -39,9 +45,9 @@ void GasContainer::AddParticles() {
                 initial_position_,
                 vec2((std::rand() % initial_velocity_factor_) + 1,
                         (std::rand() % initial_velocity_factor_) + 1),
-                 particle_radius_,
-                 particle_mass_,
-                 particle_color_);
+                 particle_radii_[i % 3],
+                 particle_masses_[i % 3],
+                 particle_colors_[i % 3]); // TODO: magic number!
 
     particles_.push_back(particle);
   }
@@ -94,16 +100,16 @@ int GasContainer::GetParticleCount() const {
   return particle_count_;
 }
 
-float GasContainer::GetParticleRadius() const {
-  return particle_radius_;
+std::vector<float> GasContainer::GetParticleRadius() const {
+  return particle_radii_;
 }
 
-float GasContainer::GetParticleMass() const {
-  return particle_mass_;
+std::vector<float> GasContainer::GetParticleMass() const {
+  return particle_masses_;
 }
 
-ci::Color GasContainer::GetParticleColor() const {
-  return particle_color_;
+std::vector<ci::Color> GasContainer::GetParticleColor() const {
+  return particle_colors_;
 }
 ci::Color GasContainer::GetRectangleColor() const {
   return rectangle_color_;

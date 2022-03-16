@@ -41,8 +41,9 @@ class IdealGasApp : public ci::app::App {
    * List of configuration fields needed to initialize the IdealGasApp.
    */
   const std::vector<std::string> kFields =
-          {"window_size", "margin_size", "initial_velocity_factor", "particle_count", "particle_radius",
-           "particle_mass", "particle_color", "rectangle_color", "background_color"};
+          {"window_size", "margin_size", "initial_velocity_factor", "particle_count", "particle_radii",
+           "particle_masses", "particle_colors", "rectangle_color", "background_color"};
+
 
  private:
   /**

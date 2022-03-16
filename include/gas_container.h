@@ -45,9 +45,9 @@ class GasContainer {
   vec2 GetInitialPosition() const;
   int GetInitialVelocityFactor() const;
   int GetParticleCount() const;
-  float GetParticleRadius() const;
-  float GetParticleMass() const;
-  ci::Color GetParticleColor() const;
+  std::vector<float> GetParticleRadius() const;
+  std::vector<float> GetParticleMass() const;
+  std::vector<ci::Color> GetParticleColor() const;
   ci::Color GetRectangleColor() const;
 
  private:
@@ -77,19 +77,19 @@ class GasContainer {
   int particle_count_;
 
   /**
-   * Default radius of each particle,
+   * List of radii for particles.
    */
-  float particle_radius_;
+  std::vector<float> particle_radii_;
 
   /**
-   * Default mass of each particle.
+   * List of masses for particles.
    */
-  float particle_mass_;
+  std::vector<float> particle_masses_;
 
   /**
-   * Default color of each particle.
+   * List of colors for particles.
    */
-  ci::Color particle_color_;
+  std::vector<ci::Color> particle_colors_;
 
   /**
    * Default color of the rectangular bounds.

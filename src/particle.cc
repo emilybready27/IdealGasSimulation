@@ -49,12 +49,13 @@ void Particle::HandleParticleCollision(Particle* other) {
 
     std::vector<vec2> v = {velocity_, other->velocity_};
     std::vector<vec2> x = {position_, other->position_};
+    std::vector<float> m = {mass_, other->mass_};
 
     vec2 v_0 = glm::dot(v[0] - v[1], x[0] - x[1]) * (x[0] - x[1]) / pow(glm::length(x[0] - x[1]), 2);
     vec2 v_1 = glm::dot(v[1] - v[0], x[1] - x[0]) * (x[1] - x[0]) / pow(glm::length(x[1] - x[0]), 2);
 
-    velocity_ -= v_0;
-    other->velocity_ -= v_1;
+    velocity_ -= v_0 * (2 * m[1] / (m[0] + m[1]));
+    other->velocity_ -= v_1 * (2 * m[0] / (m[0] + m[1]));
 
     position_ += velocity_;
     other->position_ += other->velocity_;
