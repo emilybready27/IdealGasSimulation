@@ -43,8 +43,7 @@ class IdealGasApp : public ci::app::App {
    */
   const std::vector<std::string> kFields =
           {"window_length", "window_width", "margin_size", "initial_velocity_factor", "particle_count", "particle_radii",
-           "particle_masses", "particle_colors", "rectangle_color", "background_color"};
-
+           "particle_masses", "particle_colors", "bound_color", "background_color"};
 
  private:
   /**
@@ -56,6 +55,8 @@ class IdealGasApp : public ci::app::App {
    * Parser used to gather configuration details upon initialization.
    */
   JsonParser parser_;
+
+  Histogram histogram_;
 
   /**
    * The color of the background of the display screen.

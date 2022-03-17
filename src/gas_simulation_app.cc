@@ -18,16 +18,26 @@ IdealGasApp::IdealGasApp() {
   window_width_ = parser_.json_object["window_width"];
   margin_size_ = parser_.json_object["margin_size"];
   ci::app::setWindowSize(window_length_, window_width_);
+
+  // set histogram bounds
+  ci::Rectf bounds = ci::Rectf(vec2(margin_size_,
+                                    margin_size_),
+                               vec2((window_length_ / 2) - (margin_size_ / 2),
+                                    (window_width_ / 3) - (margin_size_ / 2)));
+
+  histogram_ = Histogram(bounds, container_.GetBoundColor(), container_.GetParticleColors());
 }
 
 void IdealGasApp::draw() {
   ci::Color background_color(background_color_);
   ci::gl::clear(background_color);
   container_.Display();
+  histogram_.Display();
 }
 
 void IdealGasApp::update() {
   container_.AdvanceOneFrame();
+  histogram_.AdvanceOneFrame();
 }
 
 }  // namespace idealgas

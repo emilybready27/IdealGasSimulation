@@ -45,6 +45,6 @@ TEST_CASE("Test GasContainer construction") {
   }
 
   SECTION("Extracted rectangle color correctly") {
-    REQUIRE(container.GetRectangleColor() == "purple");
+    REQUIRE(container.GetBoundColor() == "purple");
   }
 }

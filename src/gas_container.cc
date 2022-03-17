@@ -8,11 +8,14 @@ GasContainer::GasContainer(const JsonParser& parser) {
 }
 
 void GasContainer::ExtractData(const JsonParser& parser) {
-  // set bounds to shape of window, inset by margin size
-  vec2 top_left = vec2(parser.json_object["margin_size"],
-                       parser.json_object["margin_size"]);
-  vec2 bottom_right = vec2((int) parser.json_object["window_length"] - (int) parser.json_object["margin_size"],
-                           (int) parser.json_object["window_width"] - (int) parser.json_object["margin_size"]);
+  // set bounds to right half of window
+  int length = parser.json_object["window_length"];
+  int width = parser.json_object["window_width"];
+  int margin = parser.json_object["margin_size"];
+  vec2 top_left = vec2((length / 2) + (margin / 2),
+                       margin);
+  vec2 bottom_right = vec2(length - margin,
+                           width - margin);
   bounds_ = ci::Rectf(top_left, bottom_right);
 
   // particles start in lower-right corner of container
@@ -32,8 +35,8 @@ void GasContainer::ExtractData(const JsonParser& parser) {
   for (const std::string color : parser.json_object["particle_colors"]) {
     particle_colors_.push_back(ci::Color(&(color[0])));
   }
-  std::string color = parser.json_object["rectangle_color"];
-  rectangle_color_ = ci::Color(&(color[0]));
+  std::string color = parser.json_object["bound_color"];
+  bound_color_ = ci::Color(&(color[0]));
 }
 
 void GasContainer::AddParticles() {
@@ -55,7 +58,7 @@ void GasContainer::AddParticles() {
 
 void GasContainer::Display() const {
   // display rectangle
-  ci::gl::color(rectangle_color_);
+  ci::gl::color(bound_color_);
   ci::gl::drawStrokedRect(bounds_);
 
   // display circular particles
@@ -100,19 +103,19 @@ int GasContainer::GetParticleCount() const {
   return particle_count_;
 }
 
-std::vector<float> GasContainer::GetParticleRadius() const {
+std::vector<float> GasContainer::GetParticleRadii() const {
   return particle_radii_;
 }
 
-std::vector<float> GasContainer::GetParticleMass() const {
+std::vector<float> GasContainer::GetParticleMasses() const {
   return particle_masses_;
 }
 
-std::vector<ci::Color> GasContainer::GetParticleColor() const {
+std::vector<ci::Color> GasContainer::GetParticleColors() const {
   return particle_colors_;
 }
-ci::Color GasContainer::GetRectangleColor() const {
-  return rectangle_color_;
+ci::Color GasContainer::GetBoundColor() const {
+  return bound_color_;
 }
 
 }  // namespace idealgas

@@ -45,10 +45,10 @@ class GasContainer {
   vec2 GetInitialPosition() const;
   int GetInitialVelocityFactor() const;
   int GetParticleCount() const;
-  std::vector<float> GetParticleRadius() const;
-  std::vector<float> GetParticleMass() const;
-  std::vector<ci::Color> GetParticleColor() const;
-  ci::Color GetRectangleColor() const;
+  std::vector<float> GetParticleRadii() const;
+  std::vector<float> GetParticleMasses() const;
+  std::vector<ci::Color> GetParticleColors() const;
+  ci::Color GetBoundColor() const;
 
  private:
   /**
@@ -94,7 +94,7 @@ class GasContainer {
   /**
    * Default color of the rectangular bounds.
    */
-  ci::Color rectangle_color_;
+  ci::Color bound_color_;
 
   /**
    * Stores the configurations of the GasContainer from the Json data.
