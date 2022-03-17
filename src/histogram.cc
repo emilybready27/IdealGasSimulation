@@ -52,13 +52,10 @@ void Histogram::Display() const {
 
 }
 
-void Histogram::AdvanceOneFrame(const std::vector<Particle>& particles,
-                                const ci::Color& color) {
-  std::vector<Particle> colored_particles = GetColoredParticles(particles, color);
-
+void Histogram::AdvanceOneFrame(const std::vector<Particle>& particles) {
   std::vector<float> speeds;
-  for (const Particle& colored_particle : colored_particles) {
-    speeds.push_back(glm::length(colored_particle.GetVelocity()));
+  for (const Particle& particle : particles) {
+    speeds.push_back(glm::length(particle.GetVelocity()));
   }
 
   std::sort(speeds.begin(), speeds.end());
@@ -73,17 +70,6 @@ void Histogram::AdvanceOneFrame(const std::vector<Particle>& particles,
       }
     }
   }
-}
-
-std::vector<Particle> Histogram::GetColoredParticles(const std::vector<Particle>& particles,
-                                                     const ci::Color& color) {
-  std::vector<Particle> colored_particles;
-  for (const Particle& particle : particles) {
-    if (particle.GetColor() == color) {
-      colored_particles.push_back(particle);
-    }
-  }
-  return colored_particles;
 }
 
 } // namespace idealgas

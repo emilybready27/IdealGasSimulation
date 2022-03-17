@@ -41,8 +41,9 @@ void IdealGasApp::draw() {
 void IdealGasApp::update() {
   container_.AdvanceOneFrame();
 
-  histogram_.AdvanceOneFrame(container_.GetParticles(),
-                             container_.GetParticleColors()[0]);
+  for (const ci::Color& color : container_.GetParticleColors()) {
+    histogram_.AdvanceOneFrame(container_.GetParticles(color));
+  }
 }
 
 }  // namespace idealgas

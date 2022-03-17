@@ -87,6 +87,16 @@ std::vector<Particle> GasContainer::GetParticles() const {
   return particles_;
 }
 
+std::vector<Particle> GasContainer::GetParticles(const ci::Color& color) const {
+  std::vector<Particle> colored_particles;
+  for (const Particle& particle : particles_) {
+    if (particle.GetColor() == color) {
+      colored_particles.push_back(particle);
+    }
+  }
+  return colored_particles;
+}
+
 ci::Rectf GasContainer::GetBounds() const {
   return bounds_;
 }
