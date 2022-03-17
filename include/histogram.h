@@ -1,5 +1,6 @@
 #pragma once
 
+#include "particle.h"
 #include <cinder/Rect.h>
 #include "cinder/gl/gl.h"
 
@@ -7,19 +8,24 @@ namespace idealgas {
 
 class Histogram {
  public:
-  Histogram(const ci::Rectf& bounds, const ci::Color& bound_color,
-            const std::vector<ci::Color>& particle_colors);
+  Histogram(const cinder::Rectf &bounds,
+            const cinder::Color &bound_color,
+            const ci::Color &particle_colors,
+            const int particle_count);
 
-    Histogram();
+  Histogram();
 
-    void Display() const;
+  void Display() const;
 
-  void AdvanceOneFrame();
+  void AdvanceOneFrame(const std::vector<Particle>& particles);
 
  private:
   ci::Rectf bounds_;
   ci::Color bound_color_;
-  std::vector<ci::Color> graph_colors_;
+  ci::Color bar_color_;
+  int bar_count_;
+  float bar_width_;
+  std::vector<int> frequencies_;
 };
 
 } // namespace idealgas

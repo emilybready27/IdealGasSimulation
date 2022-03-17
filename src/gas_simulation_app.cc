@@ -11,7 +11,7 @@ IdealGasApp::IdealGasApp() {
 
   // set background color with char pointer
   std::string color = parser_.json_object["background_color"];
-  background_color_ = ci::Color(&(color[0]));
+  background_color_ = ci::Color(&(color[0])); // fix?
 
   // set size of display window
   window_length_ = parser_.json_object["window_length"];
@@ -23,9 +23,12 @@ IdealGasApp::IdealGasApp() {
   ci::Rectf bounds = ci::Rectf(vec2(margin_size_,
                                     margin_size_),
                                vec2((window_length_ / 2) - (margin_size_ / 2),
-                                    (window_width_ / 3) - (margin_size_ / 2)));
+                                    (window_width_ / 3) - (margin_size_ / 2))); // TODO: magic number
 
-  histogram_ = Histogram(bounds, container_.GetBoundColor(), container_.GetParticleColors());
+  histogram_ = Histogram(bounds,
+                         container_.GetBoundColor(),
+                         container_.GetParticleColors()[0],
+                         container_.GetParticleCount() / 3); // TODO: magic number
 }
 
 void IdealGasApp::draw() {
@@ -37,7 +40,14 @@ void IdealGasApp::draw() {
 
 void IdealGasApp::update() {
   container_.AdvanceOneFrame();
-  histogram_.AdvanceOneFrame();
+
+  std::vector<Particle> particles;
+  for (const Particle& particle : container_.GetParticles()) {
+    if (particle.GetColor() == container_.GetParticleColors()[0]) {
+      particles.push_back(particle);
+    }
+  }
+  histogram_.AdvanceOneFrame(particles);
 }
 
 }  // namespace idealgas
