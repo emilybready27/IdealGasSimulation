@@ -14,9 +14,10 @@ IdealGasApp::IdealGasApp() {
   background_color_ = ci::Color(&(color[0]));
 
   // set size of display window
-  window_size_ = parser_.json_object["window_size"];
+  window_length_ = parser_.json_object["window_length"];
+  window_width_ = parser_.json_object["window_width"];
   margin_size_ = parser_.json_object["margin_size"];
-  ci::app::setWindowSize(window_size_, window_size_);
+  ci::app::setWindowSize(window_length_, window_width_);
 }
 
 void IdealGasApp::draw() {

@@ -1,7 +1,8 @@
 {
-  "window_size": 875,
+  "window_length": 2000,
+  "window_width": 875,
   "margin_size": 100,
-  "initial_velocity_factor": 3,
+  "initial_velocity_factor": 4,
   "particle_count": 50,
   "particle_radii": [10.0, 30.0, 22.0],
   "particle_masses": [1.0, 5.0, 12.0],

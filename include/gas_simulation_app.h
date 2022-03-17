@@ -5,6 +5,7 @@
 #include "cinder/gl/gl.h"
 #include "gas_container.h"
 #include "json_parser.h"
+#include "histogram.h"
 
 using glm::vec2;
 
@@ -41,7 +42,7 @@ class IdealGasApp : public ci::app::App {
    * List of configuration fields needed to initialize the IdealGasApp.
    */
   const std::vector<std::string> kFields =
-          {"window_size", "margin_size", "initial_velocity_factor", "particle_count", "particle_radii",
+          {"window_length", "window_width", "margin_size", "initial_velocity_factor", "particle_count", "particle_radii",
            "particle_masses", "particle_colors", "rectangle_color", "background_color"};
 
 
@@ -57,19 +58,19 @@ class IdealGasApp : public ci::app::App {
   JsonParser parser_;
 
   /**
-   * List of three histograms of particle speeds.
-   */
-   //std::vector<Histogram> histograms_;
-
-  /**
    * The color of the background of the display screen.
    */
   ci::Color background_color_;
 
   /**
-   * The length and width of the display window for the app.
+   * The length of the display window for the app.
    */
-  int window_size_;
+  int window_length_;
+
+  /**
+   * The width of the display window for the app.
+   */
+  int window_width_;
 
   /**
    * The width of the space between the GasContainer and display window edges.

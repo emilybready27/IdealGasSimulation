@@ -11,8 +11,8 @@ void GasContainer::ExtractData(const JsonParser& parser) {
   // set bounds to shape of window, inset by margin size
   vec2 top_left = vec2(parser.json_object["margin_size"],
                        parser.json_object["margin_size"]);
-  vec2 bottom_right = vec2((int) parser.json_object["window_size"] - (int) parser.json_object["margin_size"],
-                           (int) parser.json_object["window_size"] - (int) parser.json_object["margin_size"]);
+  vec2 bottom_right = vec2((int) parser.json_object["window_length"] - (int) parser.json_object["margin_size"],
+                           (int) parser.json_object["window_width"] - (int) parser.json_object["margin_size"]);
   bounds_ = ci::Rectf(top_left, bottom_right);
 
   // particles start in lower-right corner of container
