@@ -25,7 +25,7 @@ void Histogram::Display() const {
   for (int i = 0; i < bar_count_; i++) { // only display green particles atm
     ci::gl::color(bar_color_);
     vec2 top_left = vec2(bounds_.x1 + (bar_width_ * (float) i),
-                              bounds_.y2 - (float) (frequencies_[i]));
+                              bounds_.y2 - (float) (frequencies_[i] * 5)); // TODO: magic number
     vec2 bottom_right = vec2(bounds_.x1 + (bar_width_ * (float) (i + 1)),
                                   bounds_.y2);
     ci::gl::drawSolidRect(ci::Rectf(top_left, bottom_right));
