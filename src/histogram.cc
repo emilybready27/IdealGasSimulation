@@ -1,7 +1,9 @@
 #include "histogram.h"
 #include <algorithm>
 
-idealgas::Histogram::Histogram(const cinder::Rectf &bounds, const cinder::Color &bound_color,
+namespace idealgas {
+
+Histogram::Histogram(const cinder::Rectf &bounds, const cinder::Color &bound_color,
                                const ci::Color& particle_color, const int particle_count) {
   bounds_ = bounds;
   bound_color_ = bound_color;
@@ -12,10 +14,10 @@ idealgas::Histogram::Histogram(const cinder::Rectf &bounds, const cinder::Color 
   frequencies_ = std::vector<int>(bar_count_);
 }
 
-idealgas::Histogram::Histogram() {
+Histogram::Histogram() {
 }
 
-void idealgas::Histogram::Display() const {
+void Histogram::Display() const {
   ci::gl::color(bound_color_);
   ci::gl::drawStrokedRect(bounds_);
 
@@ -29,19 +31,22 @@ void idealgas::Histogram::Display() const {
   }
 }
 
-void idealgas::Histogram::AdvanceOneFrame(const std::vector<Particle>& particles) {
+void Histogram::AdvanceOneFrame(const std::vector<Particle>& particles,
+                                const ci::Color& color) {
+  std::vector<Particle> colored_particles = GetColoredParticles(particles, color);
+
   std::vector<float> speeds;
-  for (const Particle& particle : particles) {
-    speeds.push_back(glm::length(particle.GetVelocity()));
+  for (const Particle& colored_particle : colored_particles) {
+    speeds.push_back(glm::length(colored_particle.GetVelocity()));
   }
 
   std::sort(speeds.begin(), speeds.end());
-  float delta = speeds.at(speeds.size() - 1) / bar_count_;
+  float delta = speeds.at(speeds.size() - 1) / (float) bar_count_;
 
   frequencies_ = std::vector<int>(bar_count_); // reset the frequencies
   for (size_t i = 0; i < speeds.size(); i++) {
     for (int j = 0; j < bar_count_; j++) {
-      if (speeds[i] <= delta + (delta * j)) {
+      if (speeds[i] <= delta + (delta * (float) j)) {
         frequencies_[j]++;
         break;
       }
@@ -49,4 +54,16 @@ void idealgas::Histogram::AdvanceOneFrame(const std::vector<Particle>& particles
   }
 }
 
+std::vector<Particle> Histogram::GetColoredParticles(const std::vector<Particle>& particles,
+                                                     const ci::Color& color) {
+  std::vector<Particle> colored_particles;
+  for (const Particle& particle : particles) {
+    if (particle.GetColor() == color) {
+      colored_particles.push_back(particle);
+    }
+  }
+  return colored_particles;
+}
+
+} // namespace idealgas
 

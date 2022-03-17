@@ -17,7 +17,8 @@ class Histogram {
 
   void Display() const;
 
-  void AdvanceOneFrame(const std::vector<Particle>& particles);
+  void AdvanceOneFrame(const std::vector<Particle>& particles,
+                       const ci::Color& color);
 
  private:
   ci::Rectf bounds_;
@@ -26,6 +27,10 @@ class Histogram {
   int bar_count_;
   float bar_width_;
   std::vector<int> frequencies_;
+
+  std::vector<Particle> GetColoredParticles(const std::vector<Particle> &particles,
+                                            const cinder::Color &color);
+
 };
 
 } // namespace idealgas
