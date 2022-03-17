@@ -21,14 +21,35 @@ void Histogram::Display() const {
   ci::gl::color(bound_color_);
   ci::gl::drawStrokedRect(bounds_);
 
+  // display particle speeds as bars
   for (int i = 0; i < bar_count_; i++) { // only display green particles atm
     ci::gl::color(bar_color_);
-    vec2 top_left = vec2(bounds_.x1 + (bar_width_ * i),
-                              bounds_.y2 - (frequencies_[i]));
-    vec2 bottom_right = vec2(bounds_.x1 + (bar_width_ * (i + 1)),
+    vec2 top_left = vec2(bounds_.x1 + (bar_width_ * (float) i),
+                              bounds_.y2 - (float) (frequencies_[i]));
+    vec2 bottom_right = vec2(bounds_.x1 + (bar_width_ * (float) (i + 1)),
                                   bounds_.y2);
     ci::gl::drawSolidRect(ci::Rectf(top_left, bottom_right));
   }
+
+  // display x-label
+  ci::gl::pushModelMatrix();
+  ci::gl::translate(bounds_.getCenter().x, bounds_.y2); // move to center of x-axis
+  ci::gl::scale( 2, 2 );
+  ci::gl::drawStringCentered("Speed",
+                             vec2(0, 0),
+                             ci::Color("white")); // TODO: add Json configuration
+  ci::gl::popModelMatrix();
+
+  // display y-label
+  ci::gl::pushModelMatrix();
+  ci::gl::translate(bounds_.x1, bounds_.getCenter().y); // move to center of y-axis
+  ci::gl::rotate((float) M_PI / 2);
+  ci::gl::scale( 2, 2 );
+  ci::gl::drawStringCentered("Frequency",
+                             vec2(0, 0),
+                             ci::Color("white"));
+  ci::gl::popModelMatrix();
+
 }
 
 void Histogram::AdvanceOneFrame(const std::vector<Particle>& particles,
