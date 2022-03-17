@@ -56,7 +56,10 @@ class IdealGasApp : public ci::app::App {
    */
   JsonParser parser_;
 
-  Histogram histogram_;
+  /**
+   * List of histograms, one for each particle type.
+   */
+  std::vector<Histogram> histograms_;
 
   /**
    * The color of the background of the display screen.

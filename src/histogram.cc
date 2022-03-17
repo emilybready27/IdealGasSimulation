@@ -9,7 +9,7 @@ Histogram::Histogram(const cinder::Rectf &bounds, const cinder::Color &bound_col
   bound_color_ = bound_color;
   bar_color_ = particle_color;
 //  bar_count_ = particle_count;
-  bar_count_ = 10; // TODO: add to JSON configuration
+  bar_count_ = 20; // TODO: add to JSON configuration
   bar_width_ = bounds_.getWidth() / (float) bar_count_;
   frequencies_ = std::vector<int>(bar_count_);
 }
