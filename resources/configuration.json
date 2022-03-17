@@ -1,6 +1,6 @@
 {
-  "window_length": 2000,
-  "window_width": 875,
+  "window_length": 2500,
+  "window_width": 1500,
   "margin_size": 100,
   "initial_velocity_factor": 4,
   "particle_count": 50,
