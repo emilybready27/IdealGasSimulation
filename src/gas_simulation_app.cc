@@ -20,30 +20,27 @@ IdealGasApp::IdealGasApp() {
   ci::app::setWindowSize(window_length_, window_width_);
 
   // create histograms
+  std::vector<ci::Rectf> histogram_bounds;
+  histogram_bounds.emplace_back(vec2(margin_size_,
+                                     margin_size_),
+                                vec2((window_length_ / 2) - (margin_size_ / 2),
+                                     window_width_ / 3));
+  histogram_bounds.emplace_back(vec2(margin_size_,
+                                     (window_width_ / 3) + (margin_size_ / 2)),
+                                vec2((window_length_ / 2) - (margin_size_ / 2),
+                                     (2 * window_width_ / 3) - (margin_size_ / 2)));
+  histogram_bounds.emplace_back(vec2(margin_size_,
+                                     2 * window_width_ / 3),
+                                vec2((window_length_ / 2) - (margin_size_ / 2),
+                                     window_width_ - margin_size_));
+
   int bar_count = parser_.json_object["bar_count"];
-  ci::Rectf bounds = ci::Rectf(vec2(margin_size_,
-                                    margin_size_),
-                               vec2((window_length_ / 2) - (margin_size_ / 2),
-                                    window_width_ / 3)); // TODO: magic number
-  histograms_.emplace_back(bar_count, bounds,
-                         container_.GetBoundColor(),
-                         container_.GetParticleColors()[0]); // TODO: magic number
-
-  bounds = ci::Rectf(vec2(margin_size_,
-                          (window_width_ / 3) + (margin_size_ / 2)),
-                     vec2((window_length_ / 2) - (margin_size_ / 2),
-                          (2 * window_width_ / 3) - (margin_size_ / 2))); // TODO: magic number
-  histograms_.emplace_back(bar_count, bounds,
-                           container_.GetBoundColor(),
-                           container_.GetParticleColors()[1]); // TODO: magic number
-
-  bounds = ci::Rectf(vec2(margin_size_,
-                          2 * window_width_ / 3),
-                     vec2((window_length_ / 2) - (margin_size_ / 2),
-                          window_width_ - margin_size_)); // TODO: magic number
-  histograms_.emplace_back(bar_count, bounds,
-                           container_.GetBoundColor(),
-                           container_.GetParticleColors()[2]); // TODO: magic number
+  for (size_t i = 0; i < kParticleTypes; i++) {
+    histograms_.emplace_back(bar_count,
+                             histogram_bounds[i],
+                             container_.GetBoundColor(),
+                             container_.GetParticleColors()[i]);
+  }
 }
 
 void IdealGasApp::draw() {
@@ -51,7 +48,7 @@ void IdealGasApp::draw() {
   ci::gl::clear(background_color);
   container_.Display();
 
-  for (int i = 0; i < 3; i++) { // TODO: magic number
+  for (size_t i = 0; i < kParticleTypes; i++) {
     histograms_[i].Display();
   }
 }
@@ -59,7 +56,7 @@ void IdealGasApp::draw() {
 void IdealGasApp::update() {
   container_.AdvanceOneFrame();
 
-  for (int i = 0; i < 3; i++) { // TODO: magic number
+  for (size_t i = 0; i < kParticleTypes; i++) {
     ci::Color color = container_.GetParticleColors()[i];
     histograms_[i].AdvanceOneFrame(container_.GetParticles(), color);
   }

@@ -33,13 +33,18 @@ class IdealGasApp : public ci::app::App {
   void update() override;
 
   /**
+   * The number of different types of particles the simulation can have.
+   */
+  const size_t kParticleTypes = 3;
+
+  /**
    * The path to the Json file storing preset configuration details.
    */
   const std::string kPathToJsonFile =
           R"(C:\Users\Mary\Desktop\Cinder\my-projects\ideal-gas-ebready2\resources\configuration.json)";
 
   /**
-   * List of configuration fields needed to initialize the IdealGasApp.
+   * The list of configuration fields needed to initialize the IdealGasApp.
    */
   const std::vector<std::string> kFields =
           {"window_length", "window_width", "margin_size", "initial_velocity_factor", "particle_counts",
