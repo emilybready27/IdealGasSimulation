@@ -34,7 +34,7 @@ IdealGasApp::IdealGasApp() {
                                 vec2((window_length_ / 2) - (margin_size_ / 2),
                                      window_width_ - margin_size_));
 
-  int bar_count = parser_.json_object["bar_count"];
+  size_t bar_count = parser_.json_object["bar_count"];
   for (size_t i = 0; i < kParticleTypes; i++) {
     histograms_.emplace_back(bar_count,
                              histogram_bounds[i],

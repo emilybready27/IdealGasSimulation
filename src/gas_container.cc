@@ -1,4 +1,5 @@
 #include "gas_container.h"
+#include "gas_simulation_app.h"
 
 namespace idealgas {
 
@@ -22,7 +23,7 @@ void GasContainer::ExtractData(const JsonParser& parser) {
   initial_position_ = bounds_.getLowerRight();
   initial_velocity_factor_ = parser.json_object["initial_velocity_factor"];
 
-  for (const int count : parser.json_object["particle_counts"]) {
+  for (const size_t count : parser.json_object["particle_counts"]) {
     particle_counts_.push_back(count);
   }
   for (const float radius : parser.json_object["particle_radii"]) {
@@ -41,17 +42,17 @@ void GasContainer::ExtractData(const JsonParser& parser) {
 }
 
 void GasContainer::AddParticles() {
-  int total_particle_count = std::accumulate(particle_counts_.begin(), particle_counts_.end(), 0);
-  for (int i = 0; i < total_particle_count; i++) {
+  size_t total_particle_count = std::accumulate(particle_counts_.begin(), particle_counts_.end(), 0);
+  for (size_t i = 0; i < total_particle_count; i++) {
     // set particle state using configuration
     // set velocity magnitude to random number > 0 and < initial_velocity_factor_
     Particle particle = Particle(
                 initial_position_,
                 vec2((std::rand() % initial_velocity_factor_) + 1,
                         (std::rand() % initial_velocity_factor_) + 1),
-                 particle_radii_[i % 3],
-                 particle_masses_[i % 3],
-                 particle_colors_[i % 3]); // TODO: magic number!
+                 particle_radii_[i % IdealGasApp::kParticleTypes],
+                 particle_masses_[i % IdealGasApp::kParticleTypes],
+                 particle_colors_[i % IdealGasApp::kParticleTypes]);
 
     particles_.push_back(particle);
   }
@@ -100,20 +101,8 @@ vec2 GasContainer::GetInitialPosition() const {
   return initial_position_;
 }
 
-int GasContainer::GetInitialVelocityFactor() const {
+size_t GasContainer::GetInitialVelocityFactor() const {
   return initial_velocity_factor_;
-}
-
-std::vector<int> GasContainer::GetParticleCounts() const {
-  return particle_counts_;
-}
-
-std::vector<float> GasContainer::GetParticleRadii() const {
-  return particle_radii_;
-}
-
-std::vector<float> GasContainer::GetParticleMasses() const {
-  return particle_masses_;
 }
 
 std::vector<ci::Color> GasContainer::GetParticleColors() const {

@@ -4,8 +4,8 @@ using glm::vec2;
 
 namespace idealgas {
 
-Particle::Particle(const vec2& position, const vec2& velocity, const float radius,
-                 const float mass, const ci::Color& color) {
+Particle::Particle(const vec2& position, const vec2& velocity, float radius,
+                 float mass, const ci::Color& color) {
   position_ = position;
   velocity_ = velocity;
   radius_ = radius;
@@ -62,11 +62,11 @@ void Particle::HandleParticleCollision(Particle* other) {
   }
 }
 
-float Particle::GetNearestBound(const float value, const float min, const float max) const {
+float Particle::GetNearestBound(float value, float min, float max) const {
   return glm::clamp(value, min + radius_, max - radius_);
 }
 
-bool Particle::IsOutsideBounds(const float value, const float min, const float max) const {
+bool Particle::IsOutsideBounds(float value, float min, float max) const {
   return value - radius_ <= min || value + radius_ >= max;
 }
 
@@ -93,11 +93,11 @@ void Particle::SetPosition(const vec2& position) {
   position_ = position;
 }
 
-void Particle::SetPositionX(const float x) {
+void Particle::SetPositionX(float x) {
   position_.x = x;
 }
 
-void Particle::SetPositionY(const float y) {
+void Particle::SetPositionY(float y) {
   position_.y = y;
 }
 
@@ -117,11 +117,11 @@ void Particle::SetVelocity(const ci::vec2& velocity) {
   velocity_ = velocity;
 }
 
-void Particle::SetVelocityX(const float x) {
+void Particle::SetVelocityX(float x) {
   velocity_.x = x;
 }
 
-void Particle::SetVelocityY(const float y) {
+void Particle::SetVelocityY(float y) {
   velocity_.y = y;
 }
 

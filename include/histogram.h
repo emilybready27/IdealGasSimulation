@@ -8,12 +8,10 @@ namespace idealgas {
 
 class Histogram {
  public:
-  Histogram(const int bar_count,
+  Histogram(size_t bar_count,
             const ci::Rectf& bounds,
             const ci::Color& bound_color,
             const ci::Color& particle_colors);
-
-  Histogram();
 
   void Display() const;
 
@@ -23,9 +21,10 @@ class Histogram {
   ci::Rectf bounds_;
   ci::Color bound_color_;
   ci::Color bar_color_;
-  int bar_count_;
+  size_t bar_count_;
   float bar_width_;
-  std::vector<int> frequencies_;
+  size_t bar_weight_;
+  std::vector<size_t> frequencies_;
 };
 
 } // namespace idealgas

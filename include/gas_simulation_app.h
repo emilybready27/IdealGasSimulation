@@ -35,7 +35,7 @@ class IdealGasApp : public ci::app::App {
   /**
    * The number of different types of particles the simulation can have.
    */
-  const size_t kParticleTypes = 3;
+  static const size_t kParticleTypes = 3;
 
   /**
    * The path to the Json file storing preset configuration details.

@@ -43,10 +43,7 @@ class GasContainer {
   std::vector<Particle> GetParticles() const;
   ci::Rectf GetBounds() const;
   vec2 GetInitialPosition() const;
-  int GetInitialVelocityFactor() const;
-  std::vector<int> GetParticleCounts() const;
-  std::vector<float> GetParticleRadii() const;
-  std::vector<float> GetParticleMasses() const;
+  size_t GetInitialVelocityFactor() const;
   std::vector<ci::Color> GetParticleColors() const;
   ci::Color GetBoundColor() const;
 
@@ -69,12 +66,12 @@ class GasContainer {
   /**
    * Factor used to randomize starting velocities.
    */
-  int initial_velocity_factor_;
+  size_t initial_velocity_factor_;
 
   /**
    * List of number of each type of particle.
    */
-  std::vector<int> particle_counts_;
+  std::vector<size_t> particle_counts_;
 
   /**
    * List of radii for particles.
