@@ -4,48 +4,32 @@
 namespace idealgas {
 
 GasContainer::GasContainer(const JsonParser& parser) {
-  ExtractData(parser);
-  AddParticles();
-}
-
-void GasContainer::ExtractData(const JsonParser& parser) {
   // set bounds to right half of window
-  int length = parser.json_object["window_length"];
-  int width = parser.json_object["window_width"];
-  int margin = parser.json_object["margin_size"];
-  vec2 top_left = vec2((length / 2) + (margin / 2),
-                       margin);
-  vec2 bottom_right = vec2(length - margin,
-                           width - margin);
-  bounds_ = ci::Rectf(top_left, bottom_right);
+  int length = parser.GetWindowLength();
+  int width = parser.GetWindowWidth();
+  int margin = parser.GetMarginSize();
+  bounds_ = ci::Rectf(vec2((length / 2) + (margin / 2), margin),
+                      vec2(length - margin, width - margin));
 
   // particles start in lower-right corner of container
   initial_position_ = bounds_.getLowerRight();
-  initial_velocity_factor_ = parser.json_object["initial_velocity_factor"];
+  initial_velocity_factor_ = parser.GetInitialVelocityFactor();
 
-  for (const size_t count : parser.json_object["particle_counts"]) {
-    particle_counts_.push_back(count);
-  }
-  for (const float radius : parser.json_object["particle_radii"]) {
-    particle_radii_.push_back(radius);
-  }
-  for (const float mass : parser.json_object["particle_masses"]) {
-    particle_masses_.push_back(mass);
-  }
+  particle_counts_ = parser.GetParticleCounts();
+  particle_radii_ = parser.GetParticleRadii();
+  particle_masses_ = parser.GetParticleMasses();
+  particle_colors_ = parser.GetParticleColors();
+  bound_color_ = parser.GetBoundColor();
 
-  // setting Color requires a pointer to a char
-  for (const std::string color : parser.json_object["particle_colors"]) {
-    particle_colors_.emplace_back(&(color[0]));
-  }
-  std::string color = parser.json_object["bound_color"];
-  bound_color_ = ci::Color(&(color[0]));
+  // construct and store particles in a vector
+  AddParticles();
 }
 
 void GasContainer::AddParticles() {
   size_t total_particle_count = std::accumulate(particle_counts_.begin(), particle_counts_.end(), 0);
   for (size_t i = 0; i < total_particle_count; i++) {
     // set particle state using configuration
-    // set velocity magnitude to random number > 0 and < initial_velocity_factor_
+    // set velocity magnitude to random number > 0 and <= initial_velocity_factor_
     Particle particle = Particle(
                 initial_position_,
                 vec2((std::rand() % initial_velocity_factor_) + 1,

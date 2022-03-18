@@ -94,12 +94,6 @@ class GasContainer {
   ci::Color bound_color_;
 
   /**
-   * Stores the configurations of the GasContainer from the Json data.
-   * @param parser
-   */
-  void ExtractData(const JsonParser& parser);
-
-  /**
    * Adds particles to the container after constructing them
    */
   void AddParticles();

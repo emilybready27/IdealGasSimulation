@@ -79,9 +79,15 @@ class Particle {
   float GetVelocityY() const;
 
   /**
-   * Getters for other Particle state.
+   * Getter for Particle radius.
+   * @return float
    */
   float GetRadius() const;
+
+  /**
+   * Getter for Particle color.
+   * @return ci::Color
+   */
   ci::Color GetColor() const;
 
  private:

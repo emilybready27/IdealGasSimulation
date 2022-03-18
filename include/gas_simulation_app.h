@@ -86,6 +86,10 @@ class IdealGasApp : public ci::app::App {
    */
   int margin_size_;
 
+  /**
+   * Constructs the vector of Histograms used to display particle speeds.
+   */
+  void AddHistograms();
 };
 
 }  // namespace idealgas

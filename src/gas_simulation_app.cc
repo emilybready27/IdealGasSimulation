@@ -9,17 +9,18 @@ IdealGasApp::IdealGasApp() {
   parser_ = JsonParser(kPathToJsonFile, kFields);
   container_ = GasContainer(parser_);
 
-  // set background color with char pointer
-  std::string color = parser_.json_object["background_color"];
-  background_color_ = ci::Color(&(color[0])); // fix?
-
-  // set size of display window
-  window_length_ = parser_.json_object["window_length"];
-  window_width_ = parser_.json_object["window_width"];
-  margin_size_ = parser_.json_object["margin_size"];
+  background_color_ = parser_.GetBackgroundColor();
+  window_length_ = parser_.GetWindowLength();
+  window_width_ = parser_.GetWindowWidth();
+  margin_size_ = parser_.GetMarginSize();
   ci::app::setWindowSize(window_length_, window_width_);
 
-  // create histograms
+  // construct and store histograms of particle speeds
+  AddHistograms();
+}
+
+void IdealGasApp::AddHistograms() {
+  // histograms are situated on left half of screen, padded by margins
   std::vector<ci::Rectf> histogram_bounds;
   histogram_bounds.emplace_back(vec2(margin_size_,
                                      margin_size_),
@@ -34,7 +35,7 @@ IdealGasApp::IdealGasApp() {
                                 vec2((window_length_ / 2) - (margin_size_ / 2),
                                      window_width_ - margin_size_));
 
-  size_t bar_count = parser_.json_object["bar_count"];
+  size_t bar_count = parser_.GetBarCount();
   for (size_t i = 0; i < kParticleTypes; i++) {
     histograms_.emplace_back(bar_count,
                              histogram_bounds[i],
