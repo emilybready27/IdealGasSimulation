@@ -26,8 +26,7 @@ IdealGasApp::IdealGasApp() {
                                     window_width_ / 3)); // TODO: magic number
   histograms_.emplace_back(bounds,
                          container_.GetBoundColor(),
-                         container_.GetParticleColors()[0],
-                         container_.GetParticleCount() / 3); // TODO: magic number
+                         container_.GetParticleColors()[0]); // TODO: magic number
 
   bounds = ci::Rectf(vec2(margin_size_,
                           (window_width_ / 3) + (margin_size_ / 2)),
@@ -35,8 +34,7 @@ IdealGasApp::IdealGasApp() {
                           (2 * window_width_ / 3) - (margin_size_ / 2))); // TODO: magic number
   histograms_.emplace_back(bounds,
                            container_.GetBoundColor(),
-                           container_.GetParticleColors()[1],
-                           container_.GetParticleCount() / 3); // TODO: magic number
+                           container_.GetParticleColors()[1]); // TODO: magic number
 
   bounds = ci::Rectf(vec2(margin_size_,
                           2 * window_width_ / 3),
@@ -44,8 +42,7 @@ IdealGasApp::IdealGasApp() {
                           window_width_ - margin_size_)); // TODO: magic number
   histograms_.emplace_back(bounds,
                            container_.GetBoundColor(),
-                           container_.GetParticleColors()[2],
-                           container_.GetParticleCount() / 3); // TODO: magic number
+                           container_.GetParticleColors()[2]); // TODO: magic number
 }
 
 void IdealGasApp::draw() {
@@ -63,7 +60,7 @@ void IdealGasApp::update() {
 
   for (int i = 0; i < 3; i++) { // TODO: magic number
     ci::Color color = container_.GetParticleColors()[i];
-    histograms_[i].AdvanceOneFrame(container_.GetParticles(color));
+    histograms_[i].AdvanceOneFrame(container_.GetParticles(), color);
   }
 }
 

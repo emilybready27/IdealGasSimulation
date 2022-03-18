@@ -20,10 +20,11 @@ void GasContainer::ExtractData(const JsonParser& parser) {
 
   // particles start in lower-right corner of container
   initial_position_ = bounds_.getLowerRight();
-
   initial_velocity_factor_ = parser.json_object["initial_velocity_factor"];
-  particle_count_ = parser.json_object["particle_count"];
 
+  for (const int count : parser.json_object["particle_counts"]) {
+    particle_counts_.push_back(count);
+  }
   for (const float radius : parser.json_object["particle_radii"]) {
     particle_radii_.push_back(radius);
   }
@@ -33,15 +34,15 @@ void GasContainer::ExtractData(const JsonParser& parser) {
 
   // setting Color requires a pointer to a char
   for (const std::string color : parser.json_object["particle_colors"]) {
-    particle_colors_.push_back(ci::Color(&(color[0])));
+    particle_colors_.emplace_back(&(color[0]));
   }
   std::string color = parser.json_object["bound_color"];
   bound_color_ = ci::Color(&(color[0]));
 }
 
 void GasContainer::AddParticles() {
-  for (int i = 0; i < particle_count_; i++) {
-
+  int total_particle_count = std::accumulate(particle_counts_.begin(), particle_counts_.end(), 0);
+  for (int i = 0; i < total_particle_count; i++) {
     // set particle state using configuration
     // set velocity magnitude to random number > 0 and < initial_velocity_factor_
     Particle particle = Particle(
@@ -69,14 +70,18 @@ void GasContainer::Display() const {
 }
 
 void GasContainer::AdvanceOneFrame() {
-  for (Particle& particle : particles_) {
+  for (size_t i = 0; i < particles_.size(); i++) {
+    Particle& particle = particles_[i];
+
     // new position = old position + velocity
     particle.SetPosition(particle.GetPosition() + particle.GetVelocity());
 
     // resets velocity and position of particle after wall collision (if any)
     particle.HandleWallCollision(bounds_);
 
-    for (Particle& other_particle : particles_) {
+    for (size_t j = i + 1; j < particles_.size(); j++) {
+      Particle& other_particle = particles_[j];
+
       // resets velocity and position of both particles after collision (if any)
       particle.HandleParticleCollision(&other_particle);
     }
@@ -85,16 +90,6 @@ void GasContainer::AdvanceOneFrame() {
 
 std::vector<Particle> GasContainer::GetParticles() const {
   return particles_;
-}
-
-std::vector<Particle> GasContainer::GetParticles(const ci::Color& color) const {
-  std::vector<Particle> colored_particles;
-  for (const Particle& particle : particles_) {
-    if (particle.GetColor() == color) {
-      colored_particles.push_back(particle);
-    }
-  }
-  return colored_particles;
 }
 
 ci::Rectf GasContainer::GetBounds() const {
@@ -109,8 +104,8 @@ int GasContainer::GetInitialVelocityFactor() const {
   return initial_velocity_factor_;
 }
 
-int GasContainer::GetParticleCount() const {
-  return particle_count_;
+std::vector<int> GasContainer::GetParticleCounts() const {
+  return particle_counts_;
 }
 
 std::vector<float> GasContainer::GetParticleRadii() const {

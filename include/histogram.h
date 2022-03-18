@@ -10,14 +10,13 @@ class Histogram {
  public:
   Histogram(const cinder::Rectf &bounds,
             const cinder::Color &bound_color,
-            const ci::Color &particle_colors,
-            const int particle_count);
+            const ci::Color &particle_colors);
 
   Histogram();
 
   void Display() const;
 
-  void AdvanceOneFrame(const std::vector<Particle>& particles);
+  void AdvanceOneFrame(const std::vector<Particle>& particles, const ci::Color& color);
 
  private:
   ci::Rectf bounds_;

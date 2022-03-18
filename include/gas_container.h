@@ -41,11 +41,10 @@ class GasContainer {
    * Getters for GasContainer state.
    */
   std::vector<Particle> GetParticles() const;
-  std::vector<Particle> GetParticles(const ci::Color& color) const;
   ci::Rectf GetBounds() const;
   vec2 GetInitialPosition() const;
   int GetInitialVelocityFactor() const;
-  int GetParticleCount() const;
+  std::vector<int> GetParticleCounts() const;
   std::vector<float> GetParticleRadii() const;
   std::vector<float> GetParticleMasses() const;
   std::vector<ci::Color> GetParticleColors() const;
@@ -73,9 +72,9 @@ class GasContainer {
   int initial_velocity_factor_;
 
   /**
-   * Default number of particles in the container.
+   * List of number of each type of particle.
    */
-  int particle_count_;
+  std::vector<int> particle_counts_;
 
   /**
    * List of radii for particles.
