@@ -43,7 +43,7 @@ class IdealGasApp : public ci::app::App {
    */
   const std::vector<std::string> kFields =
           {"window_length", "window_width", "margin_size", "initial_velocity_factor", "particle_counts",
-           "particle_radii", "particle_masses", "particle_colors", "bound_color", "background_color"};
+           "particle_radii", "particle_masses", "particle_colors", "bound_color", "background_color", "bar_count"};
 
  private:
   /**

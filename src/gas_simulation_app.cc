@@ -20,11 +20,12 @@ IdealGasApp::IdealGasApp() {
   ci::app::setWindowSize(window_length_, window_width_);
 
   // create histograms
+  int bar_count = parser_.json_object["bar_count"];
   ci::Rectf bounds = ci::Rectf(vec2(margin_size_,
                                     margin_size_),
                                vec2((window_length_ / 2) - (margin_size_ / 2),
                                     window_width_ / 3)); // TODO: magic number
-  histograms_.emplace_back(bounds,
+  histograms_.emplace_back(bar_count, bounds,
                          container_.GetBoundColor(),
                          container_.GetParticleColors()[0]); // TODO: magic number
 
@@ -32,7 +33,7 @@ IdealGasApp::IdealGasApp() {
                           (window_width_ / 3) + (margin_size_ / 2)),
                      vec2((window_length_ / 2) - (margin_size_ / 2),
                           (2 * window_width_ / 3) - (margin_size_ / 2))); // TODO: magic number
-  histograms_.emplace_back(bounds,
+  histograms_.emplace_back(bar_count, bounds,
                            container_.GetBoundColor(),
                            container_.GetParticleColors()[1]); // TODO: magic number
 
@@ -40,7 +41,7 @@ IdealGasApp::IdealGasApp() {
                           2 * window_width_ / 3),
                      vec2((window_length_ / 2) - (margin_size_ / 2),
                           window_width_ - margin_size_)); // TODO: magic number
-  histograms_.emplace_back(bounds,
+  histograms_.emplace_back(bar_count, bounds,
                            container_.GetBoundColor(),
                            container_.GetParticleColors()[2]); // TODO: magic number
 }

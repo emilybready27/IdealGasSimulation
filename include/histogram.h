@@ -8,9 +8,10 @@ namespace idealgas {
 
 class Histogram {
  public:
-  Histogram(const cinder::Rectf &bounds,
-            const cinder::Color &bound_color,
-            const ci::Color &particle_colors);
+  Histogram(const int bar_count,
+            const ci::Rectf& bounds,
+            const ci::Color& bound_color,
+            const ci::Color& particle_colors);
 
   Histogram();
 

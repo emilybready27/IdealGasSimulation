@@ -3,13 +3,14 @@
 
 namespace idealgas {
 
-Histogram::Histogram(const cinder::Rectf &bounds,
+Histogram::Histogram(const int bar_count,
+                     const cinder::Rectf &bounds,
                      const cinder::Color &bound_color,
                      const ci::Color& particle_color) {
+  bar_count_ = bar_count;
   bounds_ = bounds;
   bound_color_ = bound_color;
   bar_color_ = particle_color;
-  bar_count_ = 20; // TODO: add to JSON configuration
   bar_width_ = bounds_.getWidth() / (float) bar_count_;
   frequencies_ = std::vector<int>(bar_count_);
 }
@@ -34,20 +35,20 @@ void Histogram::Display() const {
   // display x-label
   ci::gl::pushModelMatrix();
   ci::gl::translate(bounds_.getCenter().x, bounds_.y2); // move to center of x-axis
-  ci::gl::scale( 2, 2 );
+  ci::gl::scale( 3, 3);
   ci::gl::drawStringCentered("Speed",
                              vec2(0, 0),
-                             ci::Color("white")); // TODO: add Json configuration
+                             bound_color_);
   ci::gl::popModelMatrix();
 
   // display y-label
   ci::gl::pushModelMatrix();
   ci::gl::translate(bounds_.x1, bounds_.getCenter().y); // move to center of y-axis
   ci::gl::rotate((float) M_PI / 2);
-  ci::gl::scale( 2, 2 );
+  ci::gl::scale( 3, 3);
   ci::gl::drawStringCentered("Frequency",
                              vec2(0, 0),
-                             ci::Color("white"));
+                             bound_color_);
   ci::gl::popModelMatrix();
 
 }

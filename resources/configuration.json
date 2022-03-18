@@ -8,6 +8,6 @@
   "particle_masses": [1.0, 15.0, 40.0],
   "particle_colors": ["green", "teal", "maroon"],
   "bound_color": "purple",
-  "text_color": "white",
-  "background_color": "black"
+  "background_color": "black",
+  "bar_count": 15
 }
