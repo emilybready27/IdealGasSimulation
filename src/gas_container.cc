@@ -89,6 +89,18 @@ size_t GasContainer::GetInitialVelocityFactor() const {
   return initial_velocity_factor_;
 }
 
+std::vector<size_t> GasContainer::GetParticleCounts() const {
+  return particle_counts_;
+}
+
+std::vector<float> GasContainer::GetParticleRadii() const {
+  return particle_radii_;
+}
+
+std::vector<float> GasContainer::GetParticleMasses() const {
+  return particle_masses_;
+}
+
 std::vector<ci::Color> GasContainer::GetParticleColors() const {
   return particle_colors_;
 }

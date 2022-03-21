@@ -44,6 +44,9 @@ class GasContainer {
   ci::Rectf GetBounds() const;
   vec2 GetInitialPosition() const;
   size_t GetInitialVelocityFactor() const;
+  std::vector<size_t> GetParticleCounts() const;
+  std::vector<float> GetParticleRadii() const;
+  std::vector<float> GetParticleMasses() const;
   std::vector<ci::Color> GetParticleColors() const;
   ci::Color GetBoundColor() const;
 

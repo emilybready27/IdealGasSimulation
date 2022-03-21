@@ -4,8 +4,8 @@
 namespace idealgas {
 
 Histogram::Histogram(size_t bar_count,
-                     const ci::Rectf &bounds,
-                     const ci::Color &bound_color,
+                     const ci::Rectf& bounds,
+                     const ci::Color& bound_color,
                      const ci::Color& particle_color) {
   bar_count_ = bar_count;
   bounds_ = bounds;
@@ -33,15 +33,15 @@ void Histogram::Display() const {
   // display x-label
   ci::gl::pushModelMatrix();
   ci::gl::translate(bounds_.getCenter().x, bounds_.y2); // move to center of x-axis
-  ci::gl::scale( 3, 3);
+  ci::gl::scale(3, 3);
   ci::gl::drawStringCentered("Speed", vec2(0, 0), bound_color_);
   ci::gl::popModelMatrix();
 
   // display y-label
   ci::gl::pushModelMatrix();
   ci::gl::translate(bounds_.x1, bounds_.getCenter().y); // move to center of y-axis
-  ci::gl::rotate((float) M_PI / 2); // rotate 90 degrees
-  ci::gl::scale( 3, 3);
+  ci::gl::rotate((float) M_PI / 2); // rotate 90 degrees counterclockwise
+  ci::gl::scale(3, 3);
   ci::gl::drawStringCentered("Frequency", vec2(0, 0), bound_color_);
   ci::gl::popModelMatrix();
 
@@ -74,6 +74,28 @@ void Histogram::AdvanceOneFrame(const std::vector<Particle>& particles,
       }
     }
   }
+}
+
+ci::Rectf Histogram::GetBounds() const {
+  return bounds_;
+}
+ci::Color Histogram::GetBoundColor() const {
+  return bound_color_;
+}
+ci::Color Histogram::GetBarColor() const {
+  return bar_color_;
+}
+size_t Histogram::GetBarCount() const {
+  return bar_count_;
+}
+float Histogram::GetBarWidth() const {
+  return bar_width_;
+}
+size_t Histogram::GetBarWeight() const {
+  return bar_weight_;
+}
+std::vector<size_t> Histogram::GetFrequencies() const {
+  return frequencies_;
 }
 
 } // namespace idealgas

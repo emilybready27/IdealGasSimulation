@@ -33,6 +33,18 @@ class Histogram {
    */
   void AdvanceOneFrame(const std::vector<Particle>& particles, const ci::Color& color);
 
+  /**
+   * Getters for Histogram state.
+   */
+  ci::Rectf GetBounds() const;
+  ci::Color GetBoundColor() const;
+  ci::Color GetBarColor() const;
+  size_t GetBarCount() const;
+  float GetBarWidth() const;
+  size_t GetBarWeight() const;
+  std::vector<size_t> GetFrequencies() const;
+
+
  private:
   /**
    * Outline for the graph.
