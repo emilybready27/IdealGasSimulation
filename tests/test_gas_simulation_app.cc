@@ -3,20 +3,24 @@
 
 TEST_CASE("Test IdealGasApp construction") {
   std::string path = R"(C:\Users\Mary\Desktop\Cinder\my-projects\ideal-gas-ebready2\resources\configuration.json)";
-  std::vector<std::string> fields = {"window_size", "margin_size", "initial_velocity_factor", "particle_count",
-                                     "particle_radius", "particle_mass", "particle_color", "rectangle_color",
-                                     "background_color"};
+  std::vector<std::string> fields = {"window_length", "window_width", "margin_size", "initial_velocity_factor",
+                                     "particle_counts", "particle_radii", "particle_masses", "particle_colors",
+                                     "bound_color", "background_color", "bar_count"};
   JsonParser parser = JsonParser(path, fields);
 
   SECTION("Sets background color correctly") {
-    REQUIRE(parser.json_object["background_color"] == "black");
+    REQUIRE(parser.GetBackgroundColor() == "black");
   }
 
-  SECTION("Sets window size correctly") {
-    REQUIRE(parser.json_object["window_size"] == 875);
+  SECTION("Sets window length correctly") {
+    REQUIRE(parser.GetWindowLength() == 2500);
+  }
+
+  SECTION("Sets window width correctly") {
+    REQUIRE(parser.GetWindowWidth() == 1500);
   }
 
   SECTION("Sets margin size correctly") {
-    REQUIRE(parser.json_object["margin_size"] == 100);
+    REQUIRE(parser.GetMarginSize() == 100);
   }
 }

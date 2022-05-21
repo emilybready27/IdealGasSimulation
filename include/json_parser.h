@@ -25,11 +25,26 @@ class JsonParser {
   JsonParser() = default;
 
   /**
+   * Getters for Json fields.
+   */
+  int GetWindowLength() const;
+  int GetWindowWidth() const;
+  int GetMarginSize() const;
+  size_t GetInitialVelocityFactor() const;
+  std::vector<size_t> GetParticleCounts() const;
+  std::vector<float> GetParticleRadii() const;
+  std::vector<float> GetParticleMasses() const;
+  std::vector<ci::Color> GetParticleColors() const;
+  ci::Color GetBoundColor() const;
+  ci::Color GetBackgroundColor() const;
+  size_t GetBarCount() const;
+
+ private:
+  /**
    * Json object storing the key-value pairs.
    */
   json json_object;
 
- private:
   /**
    * Throws invalid_argument exception if any of the given fields
    * are not present in the json_object as keys.
@@ -50,5 +65,4 @@ class JsonParser {
    * @return std::vector<std::string>
    */
   std::vector<std::string> GetKeys() const;
-
 };

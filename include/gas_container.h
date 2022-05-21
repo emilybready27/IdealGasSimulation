@@ -43,12 +43,12 @@ class GasContainer {
   std::vector<Particle> GetParticles() const;
   ci::Rectf GetBounds() const;
   vec2 GetInitialPosition() const;
-  int GetInitialVelocityFactor() const;
-  int GetParticleCount() const;
-  float GetParticleRadius() const;
-  float GetParticleMass() const;
-  ci::Color GetParticleColor() const;
-  ci::Color GetRectangleColor() const;
+  size_t GetInitialVelocityFactor() const;
+  std::vector<size_t> GetParticleCounts() const;
+  std::vector<float> GetParticleRadii() const;
+  std::vector<float> GetParticleMasses() const;
+  std::vector<ci::Color> GetParticleColors() const;
+  ci::Color GetBoundColor() const;
 
  private:
   /**
@@ -69,38 +69,32 @@ class GasContainer {
   /**
    * Factor used to randomize starting velocities.
    */
-  int initial_velocity_factor_;
+  size_t initial_velocity_factor_;
 
   /**
-   * Default number of particles in the container.
+   * List of number of each type of particle.
    */
-  int particle_count_;
+  std::vector<size_t> particle_counts_;
 
   /**
-   * Default radius of each particle,
+   * List of radii for particles.
    */
-  float particle_radius_;
+  std::vector<float> particle_radii_;
 
   /**
-   * Default mass of each particle.
+   * List of masses for particles.
    */
-  float particle_mass_;
+  std::vector<float> particle_masses_;
 
   /**
-   * Default color of each particle.
+   * List of colors for particles.
    */
-  ci::Color particle_color_;
+  std::vector<ci::Color> particle_colors_;
 
   /**
    * Default color of the rectangular bounds.
    */
-  ci::Color rectangle_color_;
-
-  /**
-   * Stores the configurations of the GasContainer from the Json data.
-   * @param parser
-   */
-  void ExtractData(const JsonParser& parser);
+  ci::Color bound_color_;
 
   /**
    * Adds particles to the container after constructing them

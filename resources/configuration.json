@@ -1,11 +1,13 @@
 {
-  "window_size": 875,
+  "window_length": 2500,
+  "window_width": 1500,
   "margin_size": 100,
   "initial_velocity_factor": 5,
-  "particle_count": 50,
-  "particle_radius": 10.0,
-  "particle_mass": 4.0,
-  "particle_color": "green",
-  "rectangle_color": "purple",
-  "background_color": "black"
+  "particle_counts": [50, 50, 50],
+  "particle_radii": [10.0, 10.0, 25.0],
+  "particle_masses": [1.0, 10.0, 40.0],
+  "particle_colors": ["green", "teal", "maroon"],
+  "bound_color": "purple",
+  "background_color": "black",
+  "bar_count": 15
 }

@@ -19,8 +19,8 @@ class Particle {
    * @param mass float
    * @param color ci::Color
    */
-  Particle(const vec2& position, const vec2& velocity, const float radius,
-           const float mass, const ci::Color& color);
+  Particle(const vec2& position, const vec2& velocity, float radius,
+           float mass, const ci::Color& color);
 
   /**
    * Detects collision of Particle with the container bounds based on its
@@ -62,8 +62,8 @@ class Particle {
    * Getters and setters for Particle position.
    */
   void SetPosition(const vec2& position);
-  void SetPositionX(const float x);
-  void SetPositionY(const float y);
+  void SetPositionX(float x);
+  void SetPositionY(float y);
   vec2 GetPosition() const;
   float GetPositionX() const;
   float GetPositionY() const;
@@ -72,16 +72,22 @@ class Particle {
    * Getters and setters for Particle velocity.
    */
   void SetVelocity(const vec2& velocity);
-  void SetVelocityX(const float x);
-  void SetVelocityY(const float y);
+  void SetVelocityX(float x);
+  void SetVelocityY(float y);
   vec2 GetVelocity() const;
   float GetVelocityX() const;
   float GetVelocityY() const;
 
   /**
-   * Getters for other Particle state.
+   * Getter for Particle radius.
+   * @return float
    */
   float GetRadius() const;
+
+  /**
+   * Getter for Particle color.
+   * @return ci::Color
+   */
   ci::Color GetColor() const;
 
  private:
@@ -118,7 +124,7 @@ class Particle {
    * @param max float
    * @return float
    */
-  float GetNearestBound(const float value, const float min, const float max) const;
+  float GetNearestBound(float value, float min, float max) const;
 
   /**
    * Determines if the given value is outside of bounds of [min, max].
@@ -127,7 +133,7 @@ class Particle {
    * @param max float
    * @return bool
    */
-  bool IsOutsideBounds(const float value, const float min, const float max) const;
+  bool IsOutsideBounds(float value, float min, float max) const;
 
 };
 

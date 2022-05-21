@@ -1,47 +1,42 @@
 #include "gas_container.h"
+#include "gas_simulation_app.h"
 
 namespace idealgas {
 
 GasContainer::GasContainer(const JsonParser& parser) {
-  ExtractData(parser);
-  AddParticles();
-}
-
-void GasContainer::ExtractData(const JsonParser& parser) {
-  // set bounds to shape of window, inset by margin size
-  vec2 top_left = vec2(parser.json_object["margin_size"],
-                       parser.json_object["margin_size"]);
-  vec2 bottom_right = vec2((int) parser.json_object["window_size"] - (int) parser.json_object["margin_size"],
-                           (int) parser.json_object["window_size"] - (int) parser.json_object["margin_size"]);
-  bounds_ = ci::Rectf(top_left, bottom_right);
+  // set bounds to right half of window
+  int length = parser.GetWindowLength();
+  int width = parser.GetWindowWidth();
+  int margin = parser.GetMarginSize();
+  bounds_ = ci::Rectf(vec2((length / 2) + (margin / 2), margin),
+                      vec2(length - margin, width - margin));
 
   // particles start in lower-right corner of container
   initial_position_ = bounds_.getLowerRight();
+  initial_velocity_factor_ = parser.GetInitialVelocityFactor();
 
-  initial_velocity_factor_ = parser.json_object["initial_velocity_factor"];
-  particle_count_ = parser.json_object["particle_count"];
-  particle_radius_ = parser.json_object["particle_radius"];
-  particle_mass_ = parser.json_object["particle_mass"];
+  particle_counts_ = parser.GetParticleCounts();
+  particle_radii_ = parser.GetParticleRadii();
+  particle_masses_ = parser.GetParticleMasses();
+  particle_colors_ = parser.GetParticleColors();
+  bound_color_ = parser.GetBoundColor();
 
-  // setting Color requires a pointer to a char
-  std::string color = parser.json_object["particle_color"];
-  particle_color_ = ci::Color(&(color[0]));
-  color = parser.json_object["rectangle_color"];
-  rectangle_color_ = ci::Color(&(color[0]));
+  // construct and store particles in a vector
+  AddParticles();
 }
 
 void GasContainer::AddParticles() {
-  for (int i = 0; i < particle_count_; i++) {
-
+  size_t total_particle_count = std::accumulate(particle_counts_.begin(), particle_counts_.end(), 0);
+  for (size_t i = 0; i < total_particle_count; i++) {
     // set particle state using configuration
-    // set velocity magnitude to random number > 0 and < initial_velocity_factor_
+    // set velocity magnitude to random number > 0 and <= initial_velocity_factor_
     Particle particle = Particle(
                 initial_position_,
                 vec2((std::rand() % initial_velocity_factor_) + 1,
                         (std::rand() % initial_velocity_factor_) + 1),
-                 particle_radius_,
-                 particle_mass_,
-                 particle_color_);
+                 particle_radii_[i % IdealGasApp::kParticleTypes],
+                 particle_masses_[i % IdealGasApp::kParticleTypes],
+                 particle_colors_[i % IdealGasApp::kParticleTypes]);
 
     particles_.push_back(particle);
   }
@@ -49,7 +44,7 @@ void GasContainer::AddParticles() {
 
 void GasContainer::Display() const {
   // display rectangle
-  ci::gl::color(rectangle_color_);
+  ci::gl::color(bound_color_);
   ci::gl::drawStrokedRect(bounds_);
 
   // display circular particles
@@ -60,14 +55,18 @@ void GasContainer::Display() const {
 }
 
 void GasContainer::AdvanceOneFrame() {
-  for (Particle& particle : particles_) {
+  for (size_t i = 0; i < particles_.size(); i++) {
+    Particle& particle = particles_[i];
+
     // new position = old position + velocity
     particle.SetPosition(particle.GetPosition() + particle.GetVelocity());
 
     // resets velocity and position of particle after wall collision (if any)
     particle.HandleWallCollision(bounds_);
 
-    for (Particle& other_particle : particles_) {
+    for (size_t j = i + 1; j < particles_.size(); j++) {
+      Particle& other_particle = particles_[j];
+
       // resets velocity and position of both particles after collision (if any)
       particle.HandleParticleCollision(&other_particle);
     }
@@ -86,27 +85,27 @@ vec2 GasContainer::GetInitialPosition() const {
   return initial_position_;
 }
 
-int GasContainer::GetInitialVelocityFactor() const {
+size_t GasContainer::GetInitialVelocityFactor() const {
   return initial_velocity_factor_;
 }
 
-int GasContainer::GetParticleCount() const {
-  return particle_count_;
+std::vector<size_t> GasContainer::GetParticleCounts() const {
+  return particle_counts_;
 }
 
-float GasContainer::GetParticleRadius() const {
-  return particle_radius_;
+std::vector<float> GasContainer::GetParticleRadii() const {
+  return particle_radii_;
 }
 
-float GasContainer::GetParticleMass() const {
-  return particle_mass_;
+std::vector<float> GasContainer::GetParticleMasses() const {
+  return particle_masses_;
 }
 
-ci::Color GasContainer::GetParticleColor() const {
-  return particle_color_;
+std::vector<ci::Color> GasContainer::GetParticleColors() const {
+  return particle_colors_;
 }
-ci::Color GasContainer::GetRectangleColor() const {
-  return rectangle_color_;
+ci::Color GasContainer::GetBoundColor() const {
+  return bound_color_;
 }
 
 }  // namespace idealgas
